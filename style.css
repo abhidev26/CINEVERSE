@@ -206,4 +206,38 @@ input:focus, select:focus { border-color: var(--blue); }
   .logo { font-size: 19px; }
   .search-input { width: 130px; }
   .hero-stats { gap: 18px; }
+  .watched-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 3;
+  padding: 7px 10px;
+  border: 1px solid #5cdbff;
+  border-radius: 8px;
+  background: #071b21;
+  color: #5cdbff;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.watched-button {
+  border-color: #5cdbff !important;
+  color: #5cdbff !important;
+}
+
+.history-date {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+#clearHistoryButton {
+  flex-shrink: 0;
+}
+
+@media (max-width: 760px) {
+  #clearHistoryButton {
+    width: 100%;
+  }
+}
 }

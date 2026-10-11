@@ -18,7 +18,8 @@ const KEYS = {
   list: "cineverseWatchlist",
   progress: "cineverseProgress",
   users: "cineverseDemoUsers",
-  session: "cineverseDemoSession"
+  session: "cineverseDemoSession",
+  history: "cineverseViewingHistory"
 };
 
 function readStorage(key, fallback) {
@@ -42,6 +43,9 @@ let watchlist = readStorage(KEYS.list, []);
 let progress = readStorage(KEYS.progress, {});
 let currentMovieId = null;
 let authMode = "register";
+let viewingHistory = JSON.parse(
+localStorage.getItem("cineverseViewingHistory") || "[]"
+);
 
 function getMovie(id) {
   return MOVIES.find(movie => movie.id === Number(id));
@@ -384,3 +388,92 @@ setAuthMode("register");
 updateProfile();
 renderMovies();
 renderContinueWatching();
+function markAsWatched(id) {
+  const movie = MOVIES.find((item) => item.id === Number(id));
+
+  if (!movie) return;
+
+  viewingHistory = viewingHistory.filter(
+    (item) => item.id !== movie.id
+  );
+
+  viewingHistory.unshift({
+    id: movie.id,
+    watchedAt: new Date().toISOString()
+  });
+
+  localStorage.setItem(
+    "cineverseViewingHistory",
+    JSON.stringify(viewingHistory)
+  );
+
+  if (typeof saveProgress === "function") {
+    saveProgress(movie.id, 100);
+  }
+
+  renderHistory();
+  renderMovies();
+
+  if (typeof renderContinueWatching === "function") {
+    renderContinueWatching();
+  }
+
+  showDetails(movie.id);
+}
+
+function renderHistory() {
+  const grid = document.getElementById("historyGrid");
+  const empty = document.getElementById("historyEmpty");
+
+  if (!grid || !empty) return;
+
+  const watchedMovies = viewingHistory
+    .map((item) => ({
+      ...item,
+      movie: MOVIES.find((movie) => movie.id === item.id)
+    }))
+    .filter((item) => item.movie);
+
+  grid.innerHTML = "";
+
+  empty.style.display = watchedMovies.length ? "none" : "block";
+
+  watchedMovies.forEach((item) => {
+    const card = document.createElement("div");
+
+    card.innerHTML = `
+      ${movieCard(item.movie)}
+      <p class="history-date">
+        Watched: ${new Date(item.watchedAt).toLocaleDateString()}
+      </p>
+      <button
+        class="secondary-button"
+        type="button"
+        data-action="remove-history"
+        data-id="${item.movie.id}"
+      >
+        Remove from History
+      </button>
+    `;
+
+    grid.appendChild(card);
+  });
+}
+
+document
+  .getElementById("clearHistoryButton")
+  ?.addEventListener("click", () => {
+    if (!viewingHistory.length) return;
+
+    if (!confirm("Clear your entire viewing history?")) return;
+
+    viewingHistory = [];
+
+    localStorage.setItem(
+      "cineverseViewingHistory",
+      JSON.stringify(viewingHistory)
+    );
+
+    renderHistory();
+    renderMovies();
+  });
