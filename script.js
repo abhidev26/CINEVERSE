@@ -1,174 +1,134 @@
-```javascript
-// ==============================================
-// CINEVERSE — COMMIT 14
-// Advanced Movie Search & Genre Filters
-// ==============================================
+
+"use strict";
+
+/* =========================================
+   CINEVERSE — COMPLETE MOVIE APP
+   Commit 15: Similar & Recommended Movies
+========================================= */
 
 const MOVIES = [
   {
-    id: 1,
-    title: "Interstellar",
-    genre: "Sci-Fi",
-    year: 2014,
-    rating: 8.7,
-    duration: "169 min",
+    id: 1, title: "Interstellar", genre: "Sci-Fi", year: 2014, rating: 8.7,
+    duration: "169 min", director: "Christopher Nolan",
     poster: "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",
-    description: "A team of explorers travels beyond this galaxy to discover whether humanity has a future among the stars."
+    description: "A team of explorers travels beyond this galaxy to discover whether mankind has a future among the stars."
   },
   {
-    id: 2,
-    title: "Inception",
-    genre: "Sci-Fi",
-    year: 2010,
-    rating: 8.8,
-    duration: "148 min",
+    id: 2, title: "Inception", genre: "Sci-Fi", year: 2010, rating: 8.8,
+    duration: "148 min", director: "Christopher Nolan",
     poster: "https://image.tmdb.org/t/p/w500/oYuLEt3zVCKq57qu2F8dT7NIa6f.jpg",
-    description: "A skilled thief enters people's dreams to steal secrets and faces his most difficult mission."
+    description: "A skilled thief enters people's dreams to steal secrets and attempts an almost impossible mission."
   },
   {
-    id: 3,
-    title: "The Dark Knight",
-    genre: "Action",
-    year: 2008,
-    rating: 9.0,
-    duration: "152 min",
+    id: 3, title: "The Dark Knight", genre: "Action", year: 2008, rating: 9.0,
+    duration: "152 min", director: "Christopher Nolan",
     poster: "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg",
-    description: "Batman faces a criminal mastermind threatening to plunge Gotham City into chaos."
+    description: "Batman faces the Joker, a criminal mastermind who pushes Gotham City into chaos."
   },
   {
-    id: 4,
-    title: "Avatar",
-    genre: "Adventure",
-    year: 2009,
-    rating: 7.9,
-    duration: "162 min",
-    poster: "https://image.tmdb.org/t/p/w500/kyeqWdyUXW608qlYkRqosgbbJyK.jpg",
-    description: "A former Marine discovers the extraordinary world of Pandora."
+    id: 4, title: "The Matrix", genre: "Sci-Fi", year: 1999, rating: 8.7,
+    duration: "136 min", director: "Lana and Lilly Wachowski",
+    poster: "https://image.tmdb.org/t/p/w500/p96dm7sCMn4VYAStA6siNz30G1r.jpg",
+    description: "A computer hacker discovers the shocking truth behind the reality he has always known."
   },
   {
-    id: 5,
-    title: "The Avengers",
-    genre: "Action",
-    year: 2012,
-    rating: 8.0,
-    duration: "143 min",
-    poster: "https://image.tmdb.org/t/p/w500/RYMX2wcKCBAr24UyPD7xwmjaTn.jpg",
-    description: "Earth's greatest heroes join forces to stop a powerful threat."
+    id: 5, title: "Dune: Part Two", genre: "Sci-Fi", year: 2024, rating: 8.5,
+    duration: "166 min", director: "Denis Villeneuve",
+    poster: "https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg",
+    description: "Paul Atreides unites with the Fremen while pursuing a future shaped by destiny and conflict."
   },
   {
-    id: 6,
-    title: "Joker",
-    genre: "Drama",
-    year: 2019,
-    rating: 8.4,
-    duration: "122 min",
-    poster: "https://image.tmdb.org/t/p/w500/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg",
-    description: "A struggling comedian's life takes a dark turn in Gotham City."
+    id: 6, title: "Arrival", genre: "Sci-Fi", year: 2016, rating: 7.9,
+    duration: "116 min", director: "Denis Villeneuve",
+    poster: "https://image.tmdb.org/t/p/w500/x2FJsf1ElAgr63Y3PNPtJrcmpoe.jpg",
+    description: "A linguist works to communicate with mysterious visitors who have arrived on Earth."
   },
   {
-    id: 7,
-    title: "Dune",
-    genre: "Adventure",
-    year: 2021,
-    rating: 8.0,
-    duration: "155 min",
-    poster: "https://image.tmdb.org/t/p/w500/d5NXSklXo0qyIYkgV94XAgMIckC.jpg",
-    description: "A young heir travels to a dangerous desert planet that holds the future of his family."
+    id: 7, title: "Avengers: Endgame", genre: "Action", year: 2019, rating: 8.4,
+    duration: "181 min", director: "Anthony and Joe Russo",
+    poster: "https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg",
+    description: "The surviving Avengers unite for one final mission to restore what was lost."
   },
   {
-    id: 8,
-    title: "Spider-Man: Into the Spider-Verse",
-    genre: "Animation",
-    year: 2018,
-    rating: 8.4,
-    duration: "117 min",
-    poster: "https://image.tmdb.org/t/p/w500/iiZZdoQBEYBv6id8su7ImL0oCbD.jpg",
-    description: "Miles Morales discovers his powers and meets Spider heroes from different dimensions."
-  },
-  {
-    id: 9,
-    title: "The Matrix",
-    genre: "Sci-Fi",
-    year: 1999,
-    rating: 8.7,
-    duration: "136 min",
-    poster: "https://image.tmdb.org/t/p/w500/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg",
-    description: "A computer hacker discovers that reality is not what it appears to be."
-  },
-  {
-    id: 10,
-    title: "John Wick",
-    genre: "Action",
-    year: 2014,
-    rating: 7.4,
-    duration: "101 min",
+    id: 8, title: "John Wick", genre: "Action", year: 2014, rating: 7.4,
+    duration: "101 min", director: "Chad Stahelski",
     poster: "https://image.tmdb.org/t/p/w500/fZPSd91yGE9fCcCe6OoQr6E3Bev.jpg",
-    description: "A retired assassin returns to the criminal underworld after a devastating loss."
+    description: "A retired assassin returns to a dangerous underworld and confronts his past."
   },
   {
-    id: 11,
-    title: "Shutter Island",
-    genre: "Thriller",
-    year: 2010,
-    rating: 8.2,
-    duration: "138 min",
-    poster: "https://image.tmdb.org/t/p/w500/4GDy0PHYX3VRXUtwK5ysFbg3kEx.jpg",
-    description: "Two investigators uncover disturbing secrets at a remote psychiatric facility."
+    id: 9, title: "Gladiator", genre: "Action", year: 2000, rating: 8.5,
+    duration: "155 min", director: "Ridley Scott",
+    poster: "https://image.tmdb.org/t/p/w500/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg",
+    description: "A betrayed Roman general fights his way through the arena in search of justice."
   },
   {
-    id: 12,
-    title: "Coco",
-    genre: "Animation",
-    year: 2017,
-    rating: 8.4,
-    duration: "105 min",
-    poster: "https://image.tmdb.org/t/p/w500/gGEsBPAijhVUFoiNpgZXqRVWJt2.jpg",
-    description: "A young musician journeys into the Land of the Dead to discover his family's history."
+    id: 10, title: "The Shawshank Redemption", genre: "Drama", year: 1994, rating: 9.3,
+    duration: "142 min", director: "Frank Darabont",
+    poster: "https://image.tmdb.org/t/p/w500/9cqNxx0GxF0bflZmeSMuL5tnGzr.jpg",
+    description: "Two prisoners form an enduring friendship while holding on to hope behind prison walls."
+  },
+  {
+    id: 11, title: "Joker", genre: "Thriller", year: 2019, rating: 8.4,
+    duration: "122 min", director: "Todd Phillips",
+    poster: "https://image.tmdb.org/t/p/w500/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg",
+    description: "A troubled man descends into chaos in a city that has turned its back on him."
+  },
+  {
+    id: 12, title: "Spider-Man: Into the Spider-Verse", genre: "Animation", year: 2018, rating: 8.4,
+    duration: "117 min", director: "Bob Persichetti and others",
+    poster: "https://image.tmdb.org/t/p/w500/iiZZdoQBEYBv6id8su7ImL0oCbD.jpg",
+    description: "Miles Morales discovers a new world of Spider-heroes and learns what it means to be a hero."
   }
 ];
 
-// ==============================================
-// STORAGE
-// ==============================================
-
-const KEYS = {
-  list: "cineverseWatchlist",
-  progress: "cineverseProgress",
-  users: "cineverseDemoUsers",
-  session: "cineverseDemoSession",
-  history: "cineverseViewingHistory"
+const STORAGE_KEYS = {
+  watchlist: "cineverse_watchlist",
+  progress: "cineverse_progress",
+  history: "cineverse_history",
+  profile: "cineverse_profile"
 };
 
 function readStorage(key, fallback) {
   try {
-    const value = JSON.parse(localStorage.getItem(key));
-    return value ?? fallback;
-  } catch {
+    const saved = localStorage.getItem(key);
+    return saved === null ? fallback : JSON.parse(saved);
+  } catch (error) {
+    console.warn("CINEVERSE could not read saved data:", key, error);
     return fallback;
   }
 }
 
-function writeStorage(key, value) {
+function saveStorage(key, value) {
   try {
     localStorage.setItem(key, JSON.stringify(value));
   } catch (error) {
-    console.error("Could not save browser data:", error);
+    console.warn("CINEVERSE could not save data:", key, error);
   }
 }
 
-let watchlist = readStorage(KEYS.list, []);
-let progress = readStorage(KEYS.progress, {});
-let users = readStorage(KEYS.users, []);
-let session = readStorage(KEYS.session, null);
-let viewingHistory = readStorage(KEYS.history, []);
+function getMovie(id) {
+  return MOVIES.find(movie => movie.id === Number(id));
+}
 
-const $ = selector => document.querySelector(selector);
+let watchlist = readStorage(STORAGE_KEYS.watchlist, []);
+let progress = readStorage(STORAGE_KEYS.progress, {});
+let viewingHistory = readStorage(STORAGE_KEYS.history, []);
+let profile = readStorage(STORAGE_KEYS.profile, null);
 
-const getMovie = id =>
-  MOVIES.find(movie => movie.id === Number(id));
+if (!Array.isArray(watchlist)) watchlist = [];
+if (!progress || typeof progress !== "object" || Array.isArray(progress)) progress = {};
+if (!Array.isArray(viewingHistory)) viewingHistory = [];
+
+watchlist = watchlist.map(Number).filter(id => getMovie(id));
+viewingHistory = viewingHistory.filter(item => item && getMovie(item.id));
+
+let activeMovieId = null;
+let isRegisterMode = false;
+
+/* ---------- Safe HTML output ---------- */
 
 function escapeHTML(value) {
-  return String(value).replace(/[&<>"']/g, character => ({
+  return String(value ?? "").replace(/[&<>"']/g, character => ({
     "&": "&amp;",
     "<": "&lt;",
     ">": "&gt;",
@@ -177,646 +137,486 @@ function escapeHTML(value) {
   })[character]);
 }
 
-function isSaved(id) {
-  return watchlist.includes(Number(id));
-}
-
-function isWatched(id) {
-  return viewingHistory.some(
-    item => Number(item.id) === Number(id)
-  );
-}
-
-// Keep stored data compatible with the current movie collection.
-watchlist = watchlist
-  .map(item => Number(typeof item === "object" ? item.id : item))
-  .filter(id => MOVIES.some(movie => movie.id === id));
-
-viewingHistory = viewingHistory
-  .map(item => {
-    const id = Number(typeof item === "object" ? item.id : item);
-    if (!getMovie(id)) return null;
-
-    return {
-      id,
-      watchedAt:
-        typeof item === "object" && item.watchedAt
-          ? item.watchedAt
-          : new Date().toISOString()
-    };
-  })
-  .filter(Boolean);
-
-writeStorage(KEYS.list, watchlist);
-writeStorage(KEYS.history, viewingHistory);
-
-// ==============================================
-// MOVIE CARD
-// ==============================================
+/* ---------- Movie cards ---------- */
 
 function movieCard(movie) {
-  const watchedBadge = isWatched(movie.id)
-    ? '<span class="watched-badge">✓ WATCHED</span>'
-    : "";
-
-  const savedLabel = isSaved(movie.id)
-    ? "♥ Saved"
-    : "+ Watchlist";
-
-  const percent = Number(progress[movie.id] || 0);
+  const saved = watchlist.includes(movie.id);
+  const poster = escapeHTML(movie.poster);
+  const title = escapeHTML(movie.title);
+  const genre = escapeHTML(movie.genre);
+  const percentage = Number(progress[movie.id]) || 0;
 
   return `
     <article class="movie-card">
-      <div class="poster">
-        ${watchedBadge}
-
+      <div class="poster-wrap">
         <img
-          src="${movie.poster}"
-          alt="${escapeHTML(movie.title)} poster"
+          class="movie-poster"
+          src="${poster}"
+          alt="${title} poster"
           loading="lazy"
-          onerror="this.onerror=null;this.src='https://placehold.co/400x600/11131e/8b7cff?text=CINEVERSE';"
+          onerror="this.onerror=null;this.style.display='none';this.parentElement.style.background='linear-gradient(145deg,#202943,#101421)'"
         >
-
-        <span class="rating-badge">★ ${movie.rating}</span>
+        <span class="rating-pill">★ ${movie.rating.toFixed(1)}</span>
       </div>
-
       <div class="movie-info">
-        <p class="eyebrow">${escapeHTML(movie.genre)} · ${movie.year}</p>
-        <h3>${escapeHTML(movie.title)}</h3>
-        <p class="movie-description">${movie.duration}</p>
-
-        ${
-          percent > 0 && percent < 100
-            ? `<p class="history-date">${percent}% watched</p>`
-            : ""
-        }
-
-        <div class="movie-actions">
-          <button
-            class="primary-button"
-            type="button"
-            data-action="details"
-            data-id="${movie.id}"
-          >Details</button>
-
-          <button
-            class="secondary-button"
-            type="button"
-            data-action="watchlist"
-            data-id="${movie.id}"
-          >${savedLabel}</button>
+        <h3>${title}</h3>
+        <div class="movie-meta">${movie.year} · ${genre}</div>
+        <div class="card-actions">
+          <button class="card-button" type="button"
+            data-action="details" data-id="${movie.id}">Details</button>
+          <button class="card-button ${saved ? "saved" : ""}" type="button"
+            data-action="watchlist" data-id="${movie.id}">
+            ${saved ? "✓ Saved" : "+ Watchlist"}
+          </button>
         </div>
+        ${percentage > 0 ? `<div class="movie-meta">Progress: ${Math.min(100, percentage)}%</div>` : ""}
       </div>
     </article>
   `;
 }
 
-// ==============================================
-// COMMIT 14: ADVANCED SEARCH & FILTERS
-// ==============================================
+/* ---------- Main discovery grid ---------- */
 
 function renderMovies() {
-  const grid = $("#movieGrid");
+  const grid = document.getElementById("movieGrid");
   if (!grid) return;
 
-  const search = ($("#searchInput")?.value || "")
-    .trim()
-    .toLowerCase();
+  const search = (document.getElementById("searchInput")?.value || "")
+    .trim().toLowerCase();
 
-  const genre = ($("#genreFilter")?.value || "all")
-    .toLowerCase();
+  const genre = document.getElementById("genreFilter")?.value || "all";
+  const sort = document.getElementById("sortFilter")?.value || "popular";
 
-  const sort = $("#sortFilter")?.value || "default";
-
-  let filteredMovies = MOVIES.filter(movie => {
+  let filtered = MOVIES.filter(movie => {
     const matchesSearch =
       movie.title.toLowerCase().includes(search) ||
       movie.genre.toLowerCase().includes(search) ||
-      String(movie.year).includes(search);
+      String(movie.year).includes(search) ||
+      movie.director.toLowerCase().includes(search);
 
-    const matchesGenre =
-      genre === "all" ||
-      movie.genre.toLowerCase() === genre;
-
+    const matchesGenre = genre === "all" || movie.genre === genre;
     return matchesSearch && matchesGenre;
   });
 
-  if (sort === "rating") {
-    filteredMovies.sort((a, b) => b.rating - a.rating);
-  } else if (sort === "year") {
-    filteredMovies.sort((a, b) => b.year - a.year);
-  } else if (sort === "title") {
-    filteredMovies.sort((a, b) =>
-      a.title.localeCompare(b.title)
-    );
+  if (sort === "popular") filtered.sort((a, b) => b.rating - a.rating);
+  if (sort === "newest") filtered.sort((a, b) => b.year - a.year);
+  if (sort === "oldest") filtered.sort((a, b) => a.year - b.year);
+  if (sort === "title") filtered.sort((a, b) => a.title.localeCompare(b.title));
+
+  grid.innerHTML = filtered.map(movieCard).join("");
+
+  const count = document.getElementById("resultsCount");
+  if (count) {
+    count.textContent = `${filtered.length} movie${filtered.length === 1 ? "" : "s"}`;
   }
 
-  grid.innerHTML = filteredMovies.map(movieCard).join("");
-
-  const emptyMessage = $("#emptyMessage");
-  if (emptyMessage) {
-    emptyMessage.hidden = filteredMovies.length > 0;
-  }
-
-  const resultsCount = $("#resultsCount");
-  if (resultsCount) {
-    resultsCount.textContent =
-      `${filteredMovies.length} movie${filteredMovies.length === 1 ? "" : "s"}`;
-  }
+  const empty = document.getElementById("emptyMessage");
+  if (empty) empty.hidden = filtered.length > 0;
 }
 
-$("#searchInput")?.addEventListener("input", renderMovies);
-$("#genreFilter")?.addEventListener("change", renderMovies);
-$("#sortFilter")?.addEventListener("change", renderMovies);
+/* ---------- Watchlist ---------- */
 
-$("#resetFilters")?.addEventListener("click", () => {
-  if ($("#searchInput")) $("#searchInput").value = "";
-  if ($("#genreFilter")) $("#genreFilter").value = "all";
-  if ($("#sortFilter")) $("#sortFilter").value = "default";
+function renderWatchlist() {
+  const grid = document.getElementById("watchlistGrid");
+  const empty = document.getElementById("watchlistEmpty");
+  const count = document.getElementById("watchlistCount");
 
-  renderMovies();
-});
+  const movies = watchlist.map(getMovie).filter(Boolean);
 
-// ==============================================
-// WATCHLIST
-// ==============================================
+  if (grid) grid.innerHTML = movies.map(movieCard).join("");
+  if (empty) empty.hidden = movies.length > 0;
+  if (count) count.textContent = String(movies.length);
+}
 
 function toggleWatchlist(id) {
   id = Number(id);
+  if (!getMovie(id)) return;
 
-  if (isSaved(id)) {
-    watchlist = watchlist.filter(item => item !== id);
+  if (watchlist.includes(id)) {
+    watchlist = watchlist.filter(movieId => movieId !== id);
   } else {
-    watchlist.unshift(id);
+    watchlist.push(id);
   }
 
-  writeStorage(KEYS.list, watchlist);
+  saveStorage(STORAGE_KEYS.watchlist, watchlist);
   renderMovies();
   renderWatchlist();
+  renderContinueWatching();
+  renderHistory();
 
-  if ($("#detailsModal") &&
-      !$("#detailsModal").classList.contains("hidden")) {
-    showDetails(id);
+  if (activeMovieId !== null) {
+    renderRecommendations(activeMovieId);
   }
 }
 
-function renderWatchlist() {
-  const grid = $("#watchlistGrid");
-  const empty = $("#watchlistEmpty");
-  const count = $("#watchlistCount");
-
-  if (!grid) return;
-
-  const savedMovies = watchlist.map(getMovie).filter(Boolean);
-  grid.innerHTML = savedMovies.map(movieCard).join("");
-
-  if (count) count.textContent = savedMovies.length;
-  if (empty) empty.hidden = savedMovies.length > 0;
-}
-
-// ==============================================
-// CONTINUE WATCHING
-// ==============================================
+/* ---------- Continue watching ---------- */
 
 function renderContinueWatching() {
-  const grid = $("#continueGrid");
-  const empty = $("#continueEmpty");
-
+  const grid = document.getElementById("continueGrid");
+  const empty = document.getElementById("continueEmpty");
   if (!grid) return;
 
   const movies = MOVIES.filter(movie => {
-    const amount = Number(progress[movie.id] || 0);
-    return amount > 0 && amount < 100;
-  });
+    const value = Number(progress[movie.id]) || 0;
+    return value > 0 && value < 100;
+  }).sort((a, b) => (Number(progress[b.id]) || 0) - (Number(progress[a.id]) || 0));
 
   grid.innerHTML = movies.map(movie => `
-    <div class="history-card">
-      ${movieCard(movie)}
-
-      <div class="movie-info">
-        <label for="progress-${movie.id}">
-          Progress: <span id="progress-label-${movie.id}">${Number(progress[movie.id])}%</span>
-        </label>
-
-        <input
-          id="progress-${movie.id}"
-          type="range"
-          min="0"
-          max="100"
-          value="${Number(progress[movie.id])}"
-          data-progress-id="${movie.id}"
-          style="width:100%;"
-        >
+    <article class="movie-card">
+      <div class="poster-wrap">
+        <img class="movie-poster" src="${escapeHTML(movie.poster)}"
+          alt="${escapeHTML(movie.title)} poster" loading="lazy"
+          onerror="this.onerror=null;this.style.display='none'">
+        <span class="rating-pill">${Math.min(100, Number(progress[movie.id]) || 0)}%</span>
       </div>
-    </div>
+      <div class="movie-info">
+        <h3>${escapeHTML(movie.title)}</h3>
+        <div class="movie-meta">${movie.year} · ${escapeHTML(movie.genre)}</div>
+        <div style="height:5px;background:#292e40;border-radius:8px;overflow:hidden;margin:12px 0">
+          <div style="height:100%;width:${Math.min(100, Number(progress[movie.id]) || 0)}%;background:linear-gradient(90deg,#83e9ff,#a88bff)"></div>
+        </div>
+        <div class="card-actions">
+          <button class="card-button" type="button"
+            data-action="start" data-id="${movie.id}">Continue</button>
+          <button class="card-button" type="button"
+            data-action="details" data-id="${movie.id}">Details</button>
+        </div>
+      </div>
+    </article>
   `).join("");
 
   if (empty) empty.hidden = movies.length > 0;
 }
 
-function saveProgress(id, amount) {
-  id = Number(id);
-  amount = Math.max(0, Math.min(100, Number(amount)));
+/* ---------- Recently viewed ---------- */
 
-  if (!getMovie(id)) return;
-
-  progress[id] = amount;
-  writeStorage(KEYS.progress, progress);
-}
-
-// ==============================================
-// VIEWING HISTORY
-// ==============================================
-
-function markAsWatched(id) {
+function addToHistory(id) {
   id = Number(id);
   if (!getMovie(id)) return;
 
-  viewingHistory = viewingHistory.filter(
-    item => Number(item.id) !== id
-  );
+  viewingHistory = [
+    { id, viewedAt: Date.now() },
+    ...viewingHistory.filter(item => Number(item.id) !== id)
+  ].slice(0, 8);
 
-  viewingHistory.unshift({
-    id,
-    watchedAt: new Date().toISOString()
-  });
-
-  progress[id] = 100;
-
-  writeStorage(KEYS.history, viewingHistory);
-  writeStorage(KEYS.progress, progress);
-
-  renderMovies();
-  renderWatchlist();
-  renderContinueWatching();
+  saveStorage(STORAGE_KEYS.history, viewingHistory);
   renderHistory();
-  showDetails(id);
 }
 
 function renderHistory() {
-  const grid = $("#historyGrid");
-  const empty = $("#historyEmpty");
-
+  const grid = document.getElementById("historyGrid");
+  const empty = document.getElementById("historyEmpty");
   if (!grid) return;
 
-  const entries = viewingHistory
-    .map(item => ({
-      ...item,
-      movie: getMovie(item.id)
-    }))
-    .filter(item => item.movie);
+  const movies = viewingHistory.map(item => getMovie(item.id)).filter(Boolean);
+  grid.innerHTML = movies.map(movieCard).join("");
 
-  grid.innerHTML = entries.map(item => {
-    const date = Date.parse(item.watchedAt);
-    const formattedDate = Number.isNaN(date)
-      ? "Date unavailable"
-      : new Date(date).toLocaleDateString();
-
-    return `
-      <div class="history-card">
-        ${movieCard(item.movie)}
-        <p class="history-date">Watched: ${formattedDate}</p>
-        <button
-          class="secondary-button"
-          type="button"
-          data-action="remove-history"
-          data-id="${item.movie.id}"
-        >Remove from History</button>
-      </div>
-    `;
-  }).join("");
-
-  if (empty) empty.hidden = entries.length > 0;
+  if (empty) empty.hidden = movies.length > 0;
 }
 
-$("#clearHistoryButton")?.addEventListener("click", () => {
-  if (!viewingHistory.length) return;
-  if (!confirm("Clear your entire viewing history?")) return;
+/* ---------- Similar movie recommendations ---------- */
 
-  viewingHistory = [];
-  writeStorage(KEYS.history, viewingHistory);
+function renderRecommendations(movieId = null) {
+  const grid = document.getElementById("recommendationsGrid");
+  const empty = document.getElementById("recommendationsEmpty");
+  if (!grid) return;
 
-  renderHistory();
-  renderMovies();
-});
+  let recommendations = [];
 
-// ==============================================
-// MOVIE DETAILS MODAL
-// ==============================================
+  if (movieId !== null) {
+    const selected = getMovie(movieId);
+
+    if (selected) {
+      recommendations = MOVIES.filter(movie =>
+        movie.id !== selected.id && movie.genre === selected.genre
+      ).sort((a, b) => b.rating - a.rating);
+    }
+  } else {
+    const preferenceIds = [
+      ...watchlist,
+      ...viewingHistory.map(item => Number(item.id))
+    ];
+
+    const genreScores = {};
+
+    preferenceIds.forEach(id => {
+      const movie = getMovie(id);
+      if (movie) genreScores[movie.genre] = (genreScores[movie.genre] || 0) + 1;
+    });
+
+    recommendations = MOVIES.filter(movie => !watchlist.includes(movie.id))
+      .sort((a, b) => {
+        const scoreA = genreScores[a.genre] || 0;
+        const scoreB = genreScores[b.genre] || 0;
+        return scoreB - scoreA || b.rating - a.rating;
+      });
+  }
+
+  recommendations = recommendations.slice(0, 6);
+  grid.innerHTML = recommendations.map(movie => `
+    <div>
+      <p class="recommendation-label">✦ ${escapeHTML(movie.genre)} pick</p>
+      ${movieCard(movie)}
+    </div>
+  `).join("");
+
+  if (empty) empty.hidden = recommendations.length > 0;
+}
+
+/* ---------- Movie details modal ---------- */
 
 function showDetails(id) {
   const movie = getMovie(id);
-  const modal = $("#detailsModal");
-  const content = $("#detailsContent");
+  const modal = document.getElementById("detailsModal");
+  const content = document.getElementById("detailsContent");
 
   if (!movie || !modal || !content) return;
 
-  const percent = Number(progress[movie.id] || 0);
+  activeMovieId = movie.id;
+  addToHistory(movie.id);
+
+  const saved = watchlist.includes(movie.id);
+  const currentProgress = Number(progress[movie.id]) || 0;
 
   content.innerHTML = `
     <div class="details-layout">
-      <img
-        class="details-poster"
-        src="${movie.poster}"
-        alt="${escapeHTML(movie.title)} poster"
-        onerror="this.onerror=null;this.src='https://placehold.co/400x600/11131e/8b7cff?text=CINEVERSE';"
-      >
-
-      <div class="details-info">
-        <p class="eyebrow">CINEVERSE MOVIE DETAILS</p>
+      <div>
+        <img class="details-poster" src="${escapeHTML(movie.poster)}"
+          alt="${escapeHTML(movie.title)} poster"
+          onerror="this.onerror=null;this.style.display='none'">
+      </div>
+      <div class="details-copy">
+        <p class="eyebrow">${escapeHTML(movie.genre)} · ${movie.year}</p>
         <h2>${escapeHTML(movie.title)}</h2>
-
-        <p>★ ${movie.rating} / 10 · ${movie.year} · ${escapeHTML(movie.genre)}</p>
+        <div class="details-meta">★ ${movie.rating.toFixed(1)} / 10 &nbsp; · &nbsp; ${escapeHTML(movie.duration)}</div>
         <p>${escapeHTML(movie.description)}</p>
-        <p>Runtime: ${movie.duration}</p>
-
-        <div class="movie-actions">
-          <button
-            class="primary-button"
-            type="button"
-            data-action="start"
-            data-id="${movie.id}"
-          >Start Watching</button>
-
-          <button
-            class="secondary-button"
-            type="button"
-            data-action="watchlist"
-            data-id="${movie.id}"
-          >${isSaved(movie.id) ? "♥ Remove from Watchlist" : "+ Add to Watchlist"}</button>
-
-          <button
-            class="secondary-button watched-button"
-            type="button"
-            data-action="watched"
-            data-id="${movie.id}"
-          >${isWatched(movie.id) ? "✓ Watched" : "✓ Mark as Watched"}</button>
+        <p><strong>Director:</strong> ${escapeHTML(movie.director)}</p>
+        <p><strong>Your progress:</strong> ${currentProgress}%</p>
+        <div class="details-actions">
+          <button class="primary-button" type="button"
+            data-action="start" data-id="${movie.id}">
+            ${currentProgress > 0 && currentProgress < 100 ? "Continue movie" : "Start movie"}
+          </button>
+          <button class="secondary-button" type="button"
+            data-action="watchlist" data-id="${movie.id}">
+            ${saved ? "✓ In watchlist" : "+ Add to watchlist"}
+          </button>
+          <button class="secondary-button" type="button"
+            data-action="watched" data-id="${movie.id}">Mark watched</button>
         </div>
-
-        <label for="detailProgress">
-          Viewing progress: <span id="detailProgressLabel">${percent}%</span>
-        </label>
-
-        <input
-          id="detailProgress"
-          type="range"
-          min="0"
-          max="100"
-          value="${percent}"
-          data-progress-id="${movie.id}"
-          style="width:100%;"
-        >
       </div>
     </div>
   `;
 
-  modal.classList.remove("hidden");
-  modal.setAttribute("aria-hidden", "false");
+  modal.hidden = false;
+  document.body.style.overflow = "hidden";
+  renderRecommendations(movie.id);
 }
 
-function closeModal(id) {
-  const modal = document.getElementById(id);
-  if (!modal) return;
+/* ---------- Demo watch progress ---------- */
 
-  modal.classList.add("hidden");
-  modal.setAttribute("aria-hidden", "true");
+function startMovie(id) {
+  const movie = getMovie(id);
+  if (!movie) return;
+
+  const current = Number(progress[id]) || 0;
+  progress[id] = current >= 100 ? 100 : Math.min(100, current + 10);
+  saveStorage(STORAGE_KEYS.progress, progress);
+
+  addToHistory(id);
+  renderContinueWatching();
+  renderMovies();
+  renderWatchlist();
+  renderHistory();
+
+  if (progress[id] >= 100) {
+    alert(`${movie.title} marked as completed in this demo.`);
+  } else {
+    alert(`${movie.title}: demo progress is now ${progress[id]}%. This is a progress tracker, not a movie player.`);
+  }
+
+  if (activeMovieId === Number(id)) showDetails(id);
+}
+
+function markWatched(id) {
+  id = Number(id);
+  if (!getMovie(id)) return;
+
+  progress[id] = 100;
+  saveStorage(STORAGE_KEYS.progress, progress);
+  addToHistory(id);
+  renderContinueWatching();
+  renderMovies();
+  renderWatchlist();
+  renderHistory();
+  showDetails(id);
+}
+
+/* ---------- Modal and click handling ---------- */
+
+function closeModal(modal) {
+  if (modal) modal.hidden = true;
+
+  const detailsOpen = !document.getElementById("detailsModal")?.hidden;
+  const authOpen = !document.getElementById("authModal")?.hidden;
+
+  if (!detailsOpen && !authOpen) {
+    document.body.style.overflow = "";
+  }
 }
 
 document.addEventListener("click", event => {
-  const closeButton = event.target.closest("[data-close]");
-
-  if (closeButton) {
-    closeModal(closeButton.dataset.close);
+  const closeTarget = event.target.closest("[data-close-modal]");
+  if (closeTarget) {
+    closeModal(closeTarget.closest(".modal"));
     return;
   }
 
   const button = event.target.closest("[data-action]");
   if (!button) return;
 
-  const action = button.dataset.action;
   const id = Number(button.dataset.id);
+  const action = button.dataset.action;
 
-  if (action === "details") {
-    showDetails(id);
-  } else if (action === "watchlist") {
-    toggleWatchlist(id);
-  } else if (action === "watched") {
-    markAsWatched(id);
-  } else if (action === "remove-history") {
-    viewingHistory = viewingHistory.filter(
-      item => Number(item.id) !== id
-    );
+  if (action === "details") showDetails(id);
+  if (action === "watchlist") toggleWatchlist(id);
+  if (action === "start") startMovie(id);
+  if (action === "watched") markWatched(id);
+});
 
-    writeStorage(KEYS.history, viewingHistory);
-    renderHistory();
-    renderMovies();
-
-    if ($("#detailsModal") &&
-        !$("#detailsModal").classList.contains("hidden")) {
-      showDetails(id);
-    }
-  } else if (action === "start") {
-    saveProgress(id, Math.max(5, Number(progress[id] || 0)));
-    renderMovies();
-    renderContinueWatching();
-    showDetails(id);
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") {
+    closeModal(document.getElementById("detailsModal"));
+    closeModal(document.getElementById("authModal"));
   }
 });
 
-document.addEventListener("input", event => {
-  const slider = event.target.closest("[data-progress-id]");
-  if (!slider) return;
+/* ---------- Search and filters ---------- */
 
-  const id = Number(slider.dataset.progressId);
-  const amount = Number(slider.value);
+document.getElementById("searchInput")?.addEventListener("input", renderMovies);
+document.getElementById("genreFilter")?.addEventListener("change", renderMovies);
+document.getElementById("sortFilter")?.addEventListener("change", renderMovies);
 
-  saveProgress(id, amount);
+document.getElementById("resetFilters")?.addEventListener("click", () => {
+  const search = document.getElementById("searchInput");
+  const genre = document.getElementById("genreFilter");
+  const sort = document.getElementById("sortFilter");
 
-  const detailLabel = $("#detailProgressLabel");
-  if (detailLabel && slider.id === "detailProgress") {
-    detailLabel.textContent = `${amount}%`;
-  }
-
-  const progressLabel = $(`#progress-label-${id}`);
-  if (progressLabel) {
-    progressLabel.textContent = `${amount}%`;
-  }
+  if (search) search.value = "";
+  if (genre) genre.value = "all";
+  if (sort) sort.value = "popular";
 
   renderMovies();
 });
 
-document.addEventListener("change", event => {
-  if (!event.target.matches("[data-progress-id]")) return;
-
-  const id = Number(event.target.dataset.progressId);
-  const amount = Number(event.target.value);
-
-  if (amount >= 100) {
-    markAsWatched(id);
-    return;
-  }
-
-  renderContinueWatching();
+document.getElementById("clearHistoryButton")?.addEventListener("click", () => {
+  viewingHistory = [];
+  saveStorage(STORAGE_KEYS.history, viewingHistory);
+  renderHistory();
 });
 
-// ==============================================
-// DEMO PROFILE
-// ==============================================
+/* ---------- Demo profile ---------- */
 
-let authMode = "login";
-
-function setAuthMode(mode) {
-  authMode = mode;
-
-  const registering = mode === "register";
-
-  if ($("#authTitle")) {
-    $("#authTitle").textContent = registering
-      ? "Create Your Profile"
-      : "Sign In";
+function updateProfileUI() {
+  const profileButton = document.getElementById("profileButton");
+  if (profileButton) {
+    profileButton.textContent = profile?.name
+      ? profile.name
+      : "Sign in";
   }
+}
 
-  if ($("#authSubmit")) {
-    $("#authSubmit").textContent = registering
-      ? "Create Account"
-      : "Sign In";
-  }
+function openAuthModal() {
+  const modal = document.getElementById("authModal");
+  const title = document.getElementById("authTitle");
+  const message = document.getElementById("profileMessage");
+  const nameField = document.getElementById("nameField");
+  const authSwitch = document.getElementById("authSwitch");
+  const authSubmit = document.getElementById("authSubmit");
+  const logoutButton = document.getElementById("logoutButton");
+  const form = document.getElementById("authForm");
 
-  if ($("#authSwitch")) {
-    $("#authSwitch").textContent = registering
+  modal.hidden = false;
+  document.body.style.overflow = "hidden";
+
+  if (profile) {
+    title.textContent = `Hello, ${profile.name}`;
+    message.textContent = `Signed in as ${profile.email}. This is a local demo profile.`;
+    form.hidden = true;
+    nameField.hidden = true;
+    authSwitch.hidden = true;
+    authSubmit.hidden = true;
+    logoutButton.hidden = false;
+  } else {
+    title.textContent = isRegisterMode ? "Create your profile" : "Welcome back";
+    message.textContent = "This demo profile is stored only in this browser.";
+    form.hidden = false;
+    nameField.hidden = !isRegisterMode;
+    authSwitch.hidden = false;
+    authSubmit.hidden = false;
+    logoutButton.hidden = true;
+    authSubmit.textContent = isRegisterMode ? "Create account" : "Sign in";
+    authSwitch.textContent = isRegisterMode
       ? "Already registered? Sign in"
       : "New here? Create an account";
   }
-
-  if ($("#nameField")) {
-    $("#nameField").classList.toggle("hidden", !registering);
-  }
-
-  if ($("#authName")) {
-    $("#authName").required = registering;
-  }
 }
 
-function updateProfile() {
-  if (session) {
-    if ($("#profileButton")) {
-      $("#profileButton").textContent = session.name || "My Profile";
-    }
+document.getElementById("profileButton")?.addEventListener("click", openAuthModal);
 
-    if ($("#profileMessage")) {
-      $("#profileMessage").textContent = `Signed in as ${session.email}`;
-    }
-
-    $("#authForm")?.classList.add("hidden");
-    $("#authSwitch")?.classList.add("hidden");
-    $("#logoutButton")?.classList.remove("hidden");
-  } else {
-    if ($("#profileButton")) {
-      $("#profileButton").textContent = "My Profile";
-    }
-
-    if ($("#profileMessage")) {
-      $("#profileMessage").textContent = "Sign in or create a demo account.";
-    }
-
-    $("#authForm")?.classList.remove("hidden");
-    $("#authSwitch")?.classList.remove("hidden");
-    $("#logoutButton")?.classList.add("hidden");
-
-    setAuthMode("login");
-  }
-}
-
-$("#profileButton")?.addEventListener("click", () => {
-  updateProfile();
-  $("#authModal")?.classList.remove("hidden");
-  $("#authModal")?.setAttribute("aria-hidden", "false");
+document.getElementById("authSwitch")?.addEventListener("click", () => {
+  isRegisterMode = !isRegisterMode;
+  openAuthModal();
 });
 
-$("#authSwitch")?.addEventListener("click", () => {
-  setAuthMode(authMode === "login" ? "register" : "login");
-});
-
-$("#authForm")?.addEventListener("submit", event => {
+document.getElementById("authForm")?.addEventListener("submit", event => {
   event.preventDefault();
 
-  const name = $("#authName")?.value.trim() || "";
-  const email = $("#authEmail")?.value.trim().toLowerCase() || "";
-  const password = $("#authPassword")?.value || "";
+  const name = document.getElementById("authName").value.trim();
+  const email = document.getElementById("authEmail").value.trim();
+  const password = document.getElementById("authPassword").value;
 
-  if (authMode === "register") {
-    if (!name) {
-      alert("Enter your name.");
-      return;
-    }
-
-    if (users.some(user => user.email === email)) {
-      alert("This email is already registered. Please sign in.");
-      setAuthMode("login");
-      return;
-    }
-
-    users.push({ name, email, password });
-    writeStorage(KEYS.users, users);
-  }
-
-  const user = users.find(
-    item => item.email === email && item.password === password
-  );
-
-  if (!user) {
-    alert("Account not found or password incorrect. Try creating a demo account.");
+  if (!email || password.length < 4) {
+    alert("Enter a valid email and a password of at least 4 characters.");
     return;
   }
 
-  session = { name: user.name, email: user.email };
-  writeStorage(KEYS.session, session);
-
-  updateProfile();
-  closeModal("authModal");
-});
-
-$("#logoutButton")?.addEventListener("click", () => {
-  session = null;
-
-  try {
-    localStorage.removeItem(KEYS.session);
-  } catch (error) {
-    console.error(error);
+  if (isRegisterMode && !name) {
+    alert("Please enter your name.");
+    return;
   }
 
-  updateProfile();
-  closeModal("authModal");
+  // Demo only: no password is saved or checked by a server.
+  profile = {
+    name: isRegisterMode ? name : (email.split("@")[0] || "Movie Fan"),
+    email
+  };
+
+  saveStorage(STORAGE_KEYS.profile, profile);
+  updateProfileUI();
+  openAuthModal();
 });
 
-// Close modals with Escape.
-document.addEventListener("keydown", event => {
-  if (event.key === "Escape") {
-    closeModal("detailsModal");
-    closeModal("authModal");
-  }
+document.getElementById("logoutButton")?.addEventListener("click", () => {
+  profile = null;
+  saveStorage(STORAGE_KEYS.profile, null);
+  updateProfileUI();
+  closeModal(document.getElementById("authModal"));
 });
 
-// ==============================================
-// INITIALIZE
-// ==============================================
+/* ---------- Initialise page ---------- */
 
-function initializeCineverse() {
+function initCineverse() {
   renderMovies();
   renderWatchlist();
   renderContinueWatching();
   renderHistory();
-  updateProfile();
-
-  closeModal("detailsModal");
-  closeModal("authModal");
-
-  console.log("CINEVERSE loaded successfully.");
+  renderRecommendations();
+  updateProfileUI();
 }
 
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initializeCineverse);
+  document.addEventListener("DOMContentLoaded", initCineverse, { once: true });
 } else {
-  initializeCineverse();
+  initCineverse();
 }
-```
