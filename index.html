@@ -5,48 +5,65 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#080a12">
-  <title>CINEVERSE — Discover Your Next Movie</title>
+  <meta name="description" content="Discover movies, save your watchlist, explore recommendations and watch trailers with CINEVERSE.">
+  <title>CINEVERSE — Your Cinematic Universe</title>
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
 </head>
+
 <body>
+  <!-- NAVIGATION -->
   <header class="topbar">
     <a href="#discover" class="brand"><span>CI</span>NEVERSE<span class="brand-dot">.</span></a>
+
     <nav>
       <a href="#discover">Discover</a>
-      <a href="#watchlist">My Watchlist <span id="watchlistCount">0</span></a>
+      <a href="#watchlist">Watchlist <span id="watchlistCount">0</span></a>
+      <a href="#continue">Continue</a>
     </nav>
+
     <button id="profileButton" class="profile-button" type="button">Sign in</button>
   </header>
 
   <main>
+    <!-- HERO -->
     <section class="hero">
       <div class="hero-content">
-        <p class="eyebrow">YOUR NEXT OBSESSION STARTS HERE</p>
+        <p class="eyebrow">YOUR CINEMATIC UNIVERSE</p>
         <h1>Stories worth<br>staying <span>up for.</span></h1>
-        <p class="hero-copy">Discover unforgettable films, explore new worlds, and find your next favourite movie.</p>
+        <p class="hero-copy">
+          Discover unforgettable films, explore new worlds, and find your next favourite movie.
+        </p>
         <a href="#discover" class="primary-button">Explore movies <span>↗</span></a>
       </div>
+
       <div class="hero-art">
         <div class="orbit orbit-one"></div>
         <div class="orbit orbit-two"></div>
         <div class="hero-symbol">C<span>✦</span></div>
-        <p>YOUR CINEMATIC UNIVERSE</p>
+        <p>DISCOVER · EXPERIENCE · REPEAT</p>
       </div>
     </section>
 
+    <!-- DISCOVER MOVIES -->
     <section class="section" id="discover">
       <div class="section-heading">
         <div>
-          <p class="eyebrow">HANDPICKED FOR YOU</p>
+          <p class="eyebrow">FIND YOUR NEXT FAVOURITE</p>
           <h2>Explore the universe</h2>
-          <p class="muted">Find something extraordinary to watch.</p>
+          <p class="muted">Great stories are waiting to be discovered.</p>
         </div>
-        <span id="resultsCount" class="results-count">Loading movies…</span>
+        <span id="resultsCount" class="results-count">Loading movies...</span>
       </div>
 
       <div class="filters">
-        <input id="searchInput" type="search" placeholder="Search movies or genres…" aria-label="Search movies">
+        <input
+          id="searchInput"
+          type="search"
+          placeholder="Search movies, directors..."
+          aria-label="Search movies"
+        >
+
         <select id="genreFilter" aria-label="Filter by genre">
           <option value="all">All genres</option>
           <option value="Sci-Fi">Sci-Fi</option>
@@ -56,31 +73,40 @@
           <option value="Adventure">Adventure</option>
           <option value="Animation">Animation</option>
         </select>
+
         <select id="sortFilter" aria-label="Sort movies">
           <option value="popular">Top rated</option>
           <option value="newest">Newest first</option>
           <option value="oldest">Oldest first</option>
           <option value="title">Title A–Z</option>
         </select>
+
         <button id="resetFilters" class="secondary-button" type="button">Reset</button>
       </div>
 
       <div id="movieGrid" class="movie-grid" aria-live="polite"></div>
-      <p id="emptyMessage" class="empty-message" hidden>No movies found. Try another search or genre.</p>
+      <p id="emptyMessage" class="empty-message" hidden>
+        No movies found. Try another search or genre.
+      </p>
     </section>
 
+    <!-- WATCHLIST -->
     <section class="section" id="watchlist">
       <div class="section-heading">
         <div>
           <p class="eyebrow">SAVED FOR LATER</p>
           <h2>Your watchlist</h2>
-          <p class="muted">Your next movie night, all in one place.</p>
+          <p class="muted">Keep your favourite movies close.</p>
         </div>
       </div>
+
       <div id="watchlistGrid" class="movie-grid"></div>
-      <p id="watchlistEmpty" class="empty-message">Your watchlist is empty. Save a movie to see it here.</p>
+      <p id="watchlistEmpty" class="empty-message">
+        Your watchlist is empty. Add a movie to get started.
+      </p>
     </section>
 
+    <!-- CONTINUE WATCHING -->
     <section class="section" id="continue">
       <div class="section-heading">
         <div>
@@ -88,63 +114,176 @@
           <h2>Continue watching</h2>
         </div>
       </div>
+
       <div id="continueGrid" class="movie-grid"></div>
-      <p id="continueEmpty" class="empty-message">Movies you start will appear here.</p>
+      <p id="continueEmpty" class="empty-message">
+        Movies you start will appear here.
+      </p>
     </section>
 
+    <!-- VIEWING HISTORY -->
     <section class="section" id="history">
       <div class="section-heading">
         <div>
           <p class="eyebrow">YOUR CINEMA JOURNEY</p>
           <h2>Recently viewed</h2>
         </div>
-        <button id="clearHistoryButton" class="secondary-button" type="button">Clear history</button>
+
+        <button id="clearHistoryButton" class="secondary-button" type="button">
+          Clear history
+        </button>
       </div>
+
       <div id="historyGrid" class="movie-grid"></div>
-      <p id="historyEmpty" class="empty-message">Movies you explore will appear here.</p>
+      <p id="historyEmpty" class="empty-message">
+        Movies you explore will appear here.
+      </p>
     </section>
   </main>
 
+  <!-- FOOTER -->
   <footer>
     <a href="#discover" class="brand"><span>CI</span>NEVERSE<span class="brand-dot">.</span></a>
     <p>Made for people who love great stories.</p>
   </footer>
 
+  <!-- MOVIE DETAILS AND RECOMMENDATIONS MODAL -->
   <div id="detailsModal" class="modal" hidden>
     <div class="modal-backdrop" data-close-modal></div>
-    <div class="modal-card details-card" role="dialog" aria-modal="true" aria-label="Movie details">
-      <button class="modal-close" type="button" data-close-modal aria-label="Close">×</button>
+
+    <div
+      class="modal-card details-card"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Movie details"
+    >
+      <button
+        class="modal-close"
+        type="button"
+        data-close-modal
+        aria-label="Close movie details"
+      >×</button>
+
       <div id="detailsContent"></div>
+
+      <!-- COMMIT 15: SIMILAR MOVIES -->
       <section class="recommendations-section">
         <p class="eyebrow">PICKED FOR YOU</p>
         <h2>Similar movies</h2>
         <div id="recommendationsGrid" class="movie-grid recommendation-grid"></div>
-        <p id="recommendationsEmpty" class="empty-message" hidden>No similar movies found yet.</p>
+        <p id="recommendationsEmpty" class="empty-message" hidden>
+          No similar movies found yet.
+        </p>
       </section>
     </div>
   </div>
 
+  <!-- COMMIT 16: TRAILER PLAYER MODAL -->
+  <div id="trailerModal" class="modal" hidden>
+    <div class="modal-backdrop" data-close-trailer></div>
+
+    <div
+      class="modal-card trailer-card"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Movie trailer"
+    >
+      <button
+        class="modal-close"
+        type="button"
+        data-close-trailer
+        aria-label="Close trailer"
+      >×</button>
+
+      <p class="eyebrow">NOW PLAYING</p>
+      <h2 id="trailerTitle">Movie Trailer</h2>
+
+      <div class="trailer-frame">
+        <iframe
+          id="trailerFrame"
+          src="about:blank"
+          title="Movie trailer video"
+          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+          allowfullscreen
+          referrerpolicy="strict-origin-when-cross-origin"
+        ></iframe>
+      </div>
+
+      <p class="muted">
+        Trailers are embedded from YouTube. Some videos may be unavailable for embedding.
+      </p>
+    </div>
+  </div>
+
+  <!-- PROFILE / DEMO SIGN-IN MODAL -->
   <div id="authModal" class="modal" hidden>
     <div class="modal-backdrop" data-close-modal></div>
-    <div class="modal-card auth-card" role="dialog" aria-modal="true" aria-label="Profile">
-      <button class="modal-close" type="button" data-close-modal aria-label="Close">×</button>
+
+    <div
+      class="modal-card auth-card"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Your profile"
+    >
+      <button
+        class="modal-close"
+        type="button"
+        data-close-modal
+        aria-label="Close profile"
+      >×</button>
+
       <p class="eyebrow">YOUR CINEVERSE ACCOUNT</p>
       <h2 id="authTitle">Welcome back</h2>
-      <p id="profileMessage" class="muted">Sign in to personalise your cinema journey.</p>
+      <p id="profileMessage" class="muted">
+        Sign in to personalise your cinema journey.
+      </p>
+
       <form id="authForm">
         <div id="nameField" hidden>
           <label for="authName">Name</label>
-          <input id="authName" type="text" autocomplete="name" placeholder="Your name">
+          <input
+            id="authName"
+            type="text"
+            autocomplete="name"
+            placeholder="Your name"
+          >
         </div>
+
         <label for="authEmail">Email</label>
-        <input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com" required>
+        <input
+          id="authEmail"
+          type="email"
+          autocomplete="email"
+          placeholder="you@example.com"
+          required
+        >
+
         <label for="authPassword">Password</label>
-        <input id="authPassword" type="password" autocomplete="current-password" placeholder="At least 4 characters" minlength="4" required>
-        <button id="authSubmit" class="primary-button full-button" type="submit">Sign in</button>
+        <input
+          id="authPassword"
+          type="password"
+          autocomplete="current-password"
+          placeholder="At least 4 characters"
+          minlength="4"
+          required
+        >
+
+        <button id="authSubmit" class="primary-button full-button" type="submit">
+          Sign in
+        </button>
       </form>
-      <button id="authSwitch" class="text-button" type="button">New here? Create an account</button>
-      <button id="logoutButton" class="secondary-button full-button" type="button" hidden>Sign out</button>
-      <p class="demo-note">Demo profile only. Do not use a real password.</p>
+
+      <button id="authSwitch" class="text-button" type="button">
+        New here? Create an account
+      </button>
+
+      <button id="logoutButton" class="secondary-button full-button" type="button" hidden>
+        Sign out
+      </button>
+
+      <p class="demo-note">
+        Demo profile only. This is not a secure, server-backed authentication system.
+      </p>
     </div>
   </div>
 </body>

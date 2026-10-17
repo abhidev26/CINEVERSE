@@ -620,3 +620,57 @@ if (document.readyState === "loading") {
 } else {
   initCineverse();
 }
+
+/* =========================================
+   COMMIT 16 — TRAILER PLAYER
+========================================= */
+
+function openTrailer(id) {
+  const movie = getMovie(id);
+  const modal = document.getElementById("trailerModal");
+  const frame = document.getElementById("trailerFrame");
+  const title = document.getElementById("trailerTitle");
+
+  if (!movie || !modal || !frame || !title) return;
+
+  if (!movie.trailer) {
+    alert("A trailer has not been configured for this movie yet.");
+    return;
+  }
+
+  title.textContent = `${movie.title} — Trailer`;
+  frame.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(movie.trailer)}?autoplay=1&rel=0`;
+  modal.hidden = false;
+  document.body.style.overflow = "hidden";
+}
+
+function closeTrailer() {
+  const modal = document.getElementById("trailerModal");
+  const frame = document.getElementById("trailerFrame");
+
+  if (frame) frame.src = "about:blank";
+  if (modal) modal.hidden = true;
+
+  const detailsOpen = !document.getElementById("detailsModal")?.hidden;
+  const authOpen = !document.getElementById("authModal")?.hidden;
+
+  if (!detailsOpen && !authOpen) {
+    document.body.style.overflow = "";
+  }
+}
+
+document.addEventListener("click", event => {
+  const closeButton = event.target.closest("[data-close-trailer]");
+
+  if (closeButton) {
+    closeTrailer();
+    return;
+  }
+
+  const button = event.target.closest('[data-action="trailer"]');
+
+  if (button) {
+    openTrailer(Number(button.dataset.id));
+  }
+});
+

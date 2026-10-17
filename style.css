@@ -297,3 +297,42 @@ footer { display: flex; align-items: center; justify-content: space-between; gap
   .recommendation-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
   footer { padding: 22px 5%; align-items: start; flex-direction: column; }
 }
+
+/* COMMIT 16 — TRAILER PLAYER */
+
+.trailer-card {
+  width: min(900px, 100%);
+}
+
+.trailer-card h2 {
+  margin: 0 0 20px;
+  font: 600 26px 'Space Grotesk', sans-serif;
+}
+
+.trailer-frame {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #000;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.trailer-frame iframe {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 0;
+}
+
+.trailer-card > .muted {
+  margin-bottom: 0;
+}
+
+.details-actions .trailer-button {
+  background: linear-gradient(110deg, #83e9ff, #a88bff);
+  color: #101321;
+  border-color: transparent;
+  font-weight: 700;
+}
+
