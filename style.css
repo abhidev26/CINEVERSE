@@ -1040,5 +1040,131 @@ footer { display: flex; align-items: center; justify-content: space-between; gap
     grid-column: auto;
   }
 }
+
+/* ==========================================
+   COMMIT 20 — MOVIE DETAILS & CAST
+========================================== */
+
+.extra-movie-details {
+  margin-top: 30px;
+  padding-top: 25px;
+  border-top: 1px solid var(--border, rgba(255,255,255,.12));
+  color: var(--text, #f5f5f7);
+}
+
+.extra-details-heading h2 {
+  margin: 5px 0 18px;
+  font-size: clamp(23px, 3vw, 30px);
+}
+
+.extra-details-heading h2 span {
+  color: #a99aff;
+}
+
+.extra-detail-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 25px;
+}
+
+.extra-detail-chip {
+  padding: 7px 11px;
+  border: 1px solid var(--border, rgba(255,255,255,.13));
+  border-radius: 999px;
+  background: rgba(169,154,255,.08);
+  color: var(--text, #f5f5f7);
+  font-size: 12px;
+}
+
+.extra-detail-block {
+  margin: 22px 0;
+}
+
+.extra-detail-label {
+  margin: 0 0 10px;
+  color: #a99aff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.extra-detail-value {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.extra-detail-synopsis {
+  max-width: 750px;
+  margin: 0;
+  color: var(--muted, #a6a9b8);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.extra-detail-muted {
+  color: var(--muted, #a6a9b8);
+  font-size: 13px;
+}
+
+.extra-cast-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.extra-cast-card {
+  min-width: 0;
+  padding: 16px 10px;
+  border: 1px solid var(--border, rgba(255,255,255,.1));
+  border-radius: 14px;
+  background: var(--surface, rgba(255,255,255,.025));
+  text-align: center;
+  transition: transform .2s ease, border-color .2s ease;
+}
+
+.extra-cast-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(169,154,255,.55);
+}
+
+.extra-cast-avatar {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 12px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7662db, #29243f);
+  color: #fff;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.extra-cast-name {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.extra-cast-role {
+  margin-top: 5px;
+  color: var(--muted, #a6a9b8);
+  font-size: 11px;
+}
+
+@media (max-width: 600px) {
+  .extra-cast-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .extra-movie-details {
+    margin-top: 22px;
+    padding-top: 20px;
+  }
+}
+
 }
 
