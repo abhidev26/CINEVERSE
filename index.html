@@ -1,298 +1,161 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#080a12">
-  <meta name="description" content="Discover movies, save your watchlist, explore recommendations and watch trailers with CINEVERSE.">
-  <title>CINEVERSE — Your Cinematic Universe</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#100d12">
+  <meta name="description" content="CINEVERSE — discover your next cinematic obsession.">
+  <title>CINEVERSE — Beyond the Screen</title>
+  <link rel="preconnect" href="https://image.tmdb.org">
+  <link rel="preconnect" href="https://images.unsplash.com">
   <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
-  <script src="reviews.js" defer></script>
-  <script src="personalized.js" defer></script>
-  <script src="advanced-search.js" defer></script>
-  <script src="movie-details.js" defer></script>
-  <script src="watchlist.js" defer></script>
-  <script src="continue-watching.js" defer></script>
-  <script src="user-profile.js" defer></script>
-  <script src="accessibility.js" defer></script>
+  <script defer src="script.js"></script>
+  <script defer src="reviews.js"></script>
+  <script defer src="personalized.js"></script>
+  <script defer src="advanced-search.js"></script>
+  <script defer src="movie-details.js"></script>
+  <script defer src="watchlist.js"></script>
+  <script defer src="continue-watching.js"></script>
+  <script defer src="user-profile.js"></script>
+  <script defer src="accessibility.js"></script>
 </head>
-
 <body>
-  <!-- NAVIGATION -->
+  <div class="loader" id="siteLoader" role="status" aria-live="polite">
+    <div class="loader-orbit"><span class="loader-mark">C</span></div>
+    <p class="eyebrow">YOUR NEXT OBSESSION STARTS HERE</p>
+    <h1>CINE<span>VERSE</span></h1>
+    <div class="loader-track"><span id="loaderBar"></span></div>
+    <div class="loader-meta"><span>PREPARING YOUR CINEMA</span><strong id="loaderPercent">0%</strong></div>
+  </div>
+
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+
   <header class="topbar">
-    <a href="#discover" class="brand"><span>CI</span>NEVERSE<span class="brand-dot">.</span></a>
-
-    <nav>
-      <a href="#discover">Discover</a>
-      <a href="#watchlist">Watchlist <span id="watchlistCount">0</span></a>
-      <a href="#continue">Continue</a>
+    <a class="brand" href="#home" aria-label="CINEVERSE home"><span class="brand-symbol">C</span><span>CINE<span>VERSE</span><small>BEYOND THE SCREEN</small></span></a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a class="nav-link active" href="#home">Discover</a>
+      <a class="nav-link" href="#catalog">Movies & Series</a>
+      <a class="nav-link" href="#watchlistSection">My List <span class="nav-count" id="navWatchlistCount">0</span></a>
     </nav>
-
-    <button id="profileButton" class="profile-button" type="button">Sign in</button>
+    <div class="top-actions">
+      <button class="icon-button" id="themeToggle" type="button" aria-label="Switch color theme" title="Switch theme">☼</button>
+      <button class="profile-button" id="openProfile" type="button"><span class="avatar" id="avatarInitial">G</span><span class="profile-label" id="profileButtonName">Guest</span><span aria-hidden="true">⌄</span></button>
+    </div>
   </header>
 
-  <main>
-    <!-- HERO -->
-    <section class="hero">
+  <main id="home">
+    <section class="hero-shell" aria-labelledby="heroTitle">
+      <div class="hero-backdrop" id="heroBackdrop"></div>
+      <div class="hero-vignette"></div>
       <div class="hero-content">
-        <p class="eyebrow">YOUR CINEMATIC UNIVERSE</p>
-        <h1>Stories worth<br>staying <span>up for.</span></h1>
-        <p class="hero-copy">
-          Discover unforgettable films, explore new worlds, and find your next favourite movie.
-        </p>
-        <a href="#discover" class="primary-button">Explore movies <span>↗</span></a>
+        <p class="eyebrow"><span class="live-dot"></span> THE CINEVERSE PREMIERE</p>
+        <p class="hero-kicker" id="heroKicker">FEATURED EXPERIENCE · SCI-FI</p>
+        <h1 id="heroTitle">Stories that<br><span>stay with you.</span></h1>
+        <p class="hero-description" id="heroDescription">Enter extraordinary worlds, meet unforgettable characters, and find the story you’ll talk about tomorrow.</p>
+        <div class="hero-meta" id="heroMeta"><span>★ 8.8</span><span>2025</span><span>2h 14m</span><span class="tag">CINEMATIC PICK</span></div>
+        <div class="hero-actions">
+          <button class="button button-primary" id="heroExplore" type="button"><span>▶</span> Explore featured</button>
+          <button class="button button-glass" id="heroWatchlist" type="button">＋ Add to my list</button>
+        </div>
+        <div class="hero-note"><span class="hero-line"></span><span>CURATED FOR YOUR NEXT MOVIE NIGHT</span></div>
       </div>
-
-      <div class="hero-art">
-        <div class="orbit orbit-one"></div>
-        <div class="orbit orbit-two"></div>
-        <div class="hero-symbol">C<span>✦</span></div>
-        <p>DISCOVER · EXPERIENCE · REPEAT</p>
+      <div class="hero-side">
+        <span class="vertical-label">THE ART OF STORYTELLING</span>
+        <div class="hero-index"><span>01</span><i></i><span>04</span></div>
       </div>
+      <div class="hero-bottom"><span>01 — DISCOVER SOMETHING EXTRAORDINARY</span><span>SCROLL TO EXPLORE ↓</span></div>
     </section>
 
-    <!-- DISCOVER MOVIES -->
-    <section class="section" id="discover">
-      <div class="section-heading">
-        <div>
-          <p class="eyebrow">FIND YOUR NEXT FAVOURITE</p>
-          <h2>Explore the universe</h2>
-          <p class="muted">Great stories are waiting to be discovered.</p>
-        </div>
-        <span id="resultsCount" class="results-count">Loading movies...</span>
-      </div>
-
-      <div class="filters">
-        <input
-          id="searchInput"
-          type="search"
-          placeholder="Search movies, directors..."
-          aria-label="Search movies"
-        >
-
-        <select id="genreFilter" aria-label="Filter by genre">
-          <option value="all">All genres</option>
-          <option value="Sci-Fi">Sci-Fi</option>
-          <option value="Action">Action</option>
-          <option value="Drama">Drama</option>
-          <option value="Thriller">Thriller</option>
-          <option value="Adventure">Adventure</option>
-          <option value="Animation">Animation</option>
-        </select>
-
-        <select id="sortFilter" aria-label="Sort movies">
-          <option value="popular">Top rated</option>
-          <option value="newest">Newest first</option>
-          <option value="oldest">Oldest first</option>
-          <option value="title">Title A–Z</option>
-        </select>
-
-        <button id="resetFilters" class="secondary-button" type="button">Reset</button>
-      </div>
-
-      <div id="movieGrid" class="movie-grid" aria-live="polite"></div>
-      <p id="emptyMessage" class="empty-message" hidden>
-        No movies found. Try another search or genre.
-      </p>
+    <section class="quick-stats content-wrap" aria-label="Cineverse highlights">
+      <div><strong>20<span>+</span></strong><span>CURATED TITLES</span></div>
+      <div><strong>08</strong><span>GENRES TO EXPLORE</span></div>
+      <div><strong>∞</strong><span>WORLDS TO DISCOVER</span></div>
+      <p>Less scrolling.<br><b>More feeling.</b></p>
     </section>
 
-    <!-- WATCHLIST -->
-    <section class="section" id="watchlist">
+    <section class="content-section content-wrap" id="personalizedSection">
       <div class="section-heading">
-        <div>
-          <p class="eyebrow">SAVED FOR LATER</p>
-          <h2>Your watchlist</h2>
-          <p class="muted">Keep your favourite movies close.</p>
-        </div>
+        <div><p class="eyebrow">MADE FOR YOUR TASTE</p><h2>Your next <span>favourite.</span></h2><p class="section-subtitle">A little cinematic intuition, based on the genres you explore.</p></div>
+        <span class="section-index">01 / PERSONAL PICKS</span>
       </div>
-
-      <div id="watchlistGrid" class="movie-grid"></div>
-      <p id="watchlistEmpty" class="empty-message">
-        Your watchlist is empty. Add a movie to get started.
-      </p>
+      <div class="movie-grid compact-grid" id="recommendationsGrid"></div>
     </section>
 
-    <!-- CONTINUE WATCHING -->
-    <section class="section" id="continue">
+    <section class="content-section content-wrap" id="catalog">
       <div class="section-heading">
-        <div>
-          <p class="eyebrow">PICK UP WHERE YOU LEFT OFF</p>
-          <h2>Continue watching</h2>
+        <div><p class="eyebrow">THE CINEVERSE COLLECTION</p><h2>Find your <span>escape.</span></h2><p class="section-subtitle">From pulse-racing adventures to stories that hit a little closer to home.</p></div>
+        <span class="section-index">02 / ALL TITLES</span>
+      </div>
+      <div class="catalog-toolbar">
+        <label class="search-box"><span aria-hidden="true">⌕</span><input id="movieSearch" type="search" placeholder="Search titles, genres, or moods…" autocomplete="off" aria-label="Search movies"><kbd>/</kbd></label>
+        <div class="filter-controls">
+          <label class="select-wrap"><span class="sr-only">Filter by genre</span><select id="genreFilter"><option value="all">All genres</option></select></label>
+          <label class="select-wrap"><span class="sr-only">Sort movies</span><select id="sortFilter"><option value="featured">Featured order</option><option value="rating">Highest rated</option><option value="year">Newest first</option><option value="title">Title A–Z</option></select></label>
+          <button class="button button-small button-outline" id="clearFilters" type="button">Reset</button>
         </div>
       </div>
-
-      <div id="continueGrid" class="movie-grid"></div>
-      <p id="continueEmpty" class="empty-message">
-        Movies you start will appear here.
-      </p>
+      <div class="results-line"><span id="resultsCount">20 titles</span><span>SELECT A POSTER TO ENTER ITS WORLD ↗</span></div>
+      <div class="movie-grid" id="movieGrid" aria-live="polite"></div>
+      <div class="empty-state hidden" id="emptyState"><span>✦</span><h3>No stories found</h3><p>Try another title or reset your filters.</p></div>
     </section>
 
-    <!-- VIEWING HISTORY -->
-    <section class="section" id="history">
+    <section class="content-section content-wrap" id="watchlistSection">
       <div class="section-heading">
-        <div>
-          <p class="eyebrow">YOUR CINEMA JOURNEY</p>
-          <h2>Recently viewed</h2>
-        </div>
-
-        <button id="clearHistoryButton" class="secondary-button" type="button">
-          Clear history
-        </button>
+        <div><p class="eyebrow">SAVED FOR LATER</p><h2>Your private <span>screening room.</span></h2><p class="section-subtitle">All the titles you want to come back to.</p></div>
+        <button class="button button-small button-outline" id="clearWatchlist" type="button">Clear list</button>
       </div>
+      <div class="movie-grid compact-grid" id="watchlistGrid"></div>
+      <p class="inline-empty" id="watchlistEmpty">Your list is waiting for its first story. Add a title you love.</p>
+    </section>
 
-      <div id="historyGrid" class="movie-grid"></div>
-      <p id="historyEmpty" class="empty-message">
-        Movies you explore will appear here.
-      </p>
+    <section class="content-section content-wrap" id="recentSection">
+      <div class="section-heading">
+        <div><p class="eyebrow">PICK UP WHERE YOU LEFT OFF</p><h2>Recently <span>explored.</span></h2><p class="section-subtitle">Your recent discoveries, ready to revisit.</p></div>
+      </div>
+      <div class="movie-grid compact-grid" id="recentGrid"></div>
+      <p class="inline-empty" id="recentEmpty">Your recent discoveries will appear here when you open a title.</p>
+    </section>
+
+    <section class="closing-banner content-wrap">
+      <div><p class="eyebrow">THE NIGHT IS YOUNG</p><h2>One story can<br>change <span>everything.</span></h2><p>Find the film. Set the mood. Let the world disappear.</p></div>
+      <a class="button button-primary" href="#catalog">Explore the collection <span>↗</span></a>
+      <div class="banner-orb" aria-hidden="true"></div>
     </section>
   </main>
 
-  <!-- FOOTER -->
-  <footer>
-    <a href="#discover" class="brand"><span>CI</span>NEVERSE<span class="brand-dot">.</span></a>
-    <p>Made for people who love great stories.</p>
-  </footer>
+  <footer class="footer content-wrap"><a class="brand footer-brand" href="#home"><span class="brand-symbol">C</span><span>CINE<span>VERSE</span><small>BEYOND THE SCREEN</small></span></a><p>Stories are better when they find you.</p><span>© <span id="currentYear"></span> CINEVERSE · A CINEMATIC DEMO EXPERIENCE</span></footer>
 
-  <!-- MOVIE DETAILS AND RECOMMENDATIONS MODAL -->
-  <div id="detailsModal" class="modal" hidden>
-    <div class="modal-backdrop" data-close-modal></div>
-
-    <div
-      class="modal-card details-card"
-      role="dialog"
-      aria-modal="true"
-      aria-label="Movie details"
-    >
-      <button
-        class="modal-close"
-        type="button"
-        data-close-modal
-        aria-label="Close movie details"
-      >×</button>
-
-      <div id="detailsContent"></div>
-
-      <!-- COMMIT 15: SIMILAR MOVIES -->
-      <section class="recommendations-section">
-        <p class="eyebrow">PICKED FOR YOU</p>
-        <h2>Similar movies</h2>
-        <div id="recommendationsGrid" class="movie-grid recommendation-grid"></div>
-        <p id="recommendationsEmpty" class="empty-message" hidden>
-          No similar movies found yet.
-        </p>
-      </section>
-    </div>
-  </div>
-
-  <!-- COMMIT 16: TRAILER PLAYER MODAL -->
-  <div id="trailerModal" class="modal" hidden>
-    <div class="modal-backdrop" data-close-trailer></div>
-
-    <div
-      class="modal-card trailer-card"
-      role="dialog"
-      aria-modal="true"
-      aria-label="Movie trailer"
-    >
-      <button
-        class="modal-close"
-        type="button"
-        data-close-trailer
-        aria-label="Close trailer"
-      >×</button>
-
-      <p class="eyebrow">NOW PLAYING</p>
-      <h2 id="trailerTitle">Movie Trailer</h2>
-
-      <div class="trailer-frame">
-        <iframe
-          id="trailerFrame"
-          src="about:blank"
-          title="Movie trailer video"
-          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-          allowfullscreen
-          referrerpolicy="strict-origin-when-cross-origin"
-        ></iframe>
+  <div class="modal-backdrop hidden" id="movieModal" role="dialog" aria-modal="true" aria-labelledby="detailTitle" aria-hidden="true">
+    <div class="detail-dialog" role="document">
+      <button class="modal-close" data-close-modal type="button" aria-label="Close movie details">×</button>
+      <div class="detail-cover" id="detailCover"></div>
+      <div class="detail-body">
+        <p class="eyebrow" id="detailKicker">CINEVERSE SELECTION</p>
+        <h2 id="detailTitle">Movie title</h2>
+        <div class="detail-meta" id="detailMeta"></div>
+        <p id="detailDescription"></p>
+        <div class="detail-tags" id="detailTags"></div>
+        <div class="detail-actions"><button class="button button-primary" id="detailTrailer" type="button">▶ Find trailer</button><button class="button button-glass" id="detailSave" type="button">＋ Add to my list</button></div>
+        <div id="movieExtraDetails"></div>
+        <section class="reviews-panel" id="reviewsPanel" aria-label="Community reviews"></section>
       </div>
-
-      <p class="muted">
-        Trailers are embedded from YouTube. Some videos may be unavailable for embedding.
-      </p>
     </div>
   </div>
 
-  <!-- PROFILE / DEMO SIGN-IN MODAL -->
-  <div id="authModal" class="modal" hidden>
-    <div class="modal-backdrop" data-close-modal></div>
-
-    <div
-      class="modal-card auth-card"
-      role="dialog"
-      aria-modal="true"
-      aria-label="Your profile"
-    >
-      <button
-        class="modal-close"
-        type="button"
-        data-close-modal
-        aria-label="Close profile"
-      >×</button>
-
-      <p class="eyebrow">YOUR CINEVERSE ACCOUNT</p>
-      <h2 id="authTitle">Welcome back</h2>
-      <p id="profileMessage" class="muted">
-        Sign in to personalise your cinema journey.
-      </p>
-
-      <form id="authForm">
-        <div id="nameField" hidden>
-          <label for="authName">Name</label>
-          <input
-            id="authName"
-            type="text"
-            autocomplete="name"
-            placeholder="Your name"
-          >
-        </div>
-
-        <label for="authEmail">Email</label>
-        <input
-          id="authEmail"
-          type="email"
-          autocomplete="email"
-          placeholder="you@example.com"
-          required
-        >
-
-        <label for="authPassword">Password</label>
-        <input
-          id="authPassword"
-          type="password"
-          autocomplete="current-password"
-          placeholder="At least 4 characters"
-          minlength="4"
-          required
-        >
-
-        <button id="authSubmit" class="primary-button full-button" type="submit">
-          Sign in
-        </button>
+  <div class="modal-backdrop hidden" id="profileModal" role="dialog" aria-modal="true" aria-labelledby="profileTitle" aria-hidden="true">
+    <div class="profile-dialog" role="document">
+      <button class="modal-close" data-close-modal type="button" aria-label="Close profile">×</button>
+      <p class="eyebrow">YOUR CINEVERSE</p><h2 id="profileTitle">Make it <span>personal.</span></h2>
+      <p class="section-subtitle">Choose how your cinema world feels. This profile is stored only in this browser.</p>
+      <form id="profileForm">
+        <label class="field-label" for="profileName">Display name</label><input class="form-input" id="profileName" maxlength="30" placeholder="Your name">
+        <label class="field-label" for="favoriteGenre">Favourite genre</label><select class="form-input" id="favoriteGenre"><option>Adventure</option><option>Action</option><option>Drama</option><option>Sci-Fi</option><option>Thriller</option><option>Fantasy</option><option>Animation</option><option>Comedy</option><option>Mystery</option><option>Crime</option><option>Romance</option></select>
+        <button class="button button-primary full-button" type="submit">Save preferences ↗</button>
       </form>
-
-      <button id="authSwitch" class="text-button" type="button">
-        New here? Create an account
-      </button>
-
-      <button id="logoutButton" class="secondary-button full-button" type="button" hidden>
-        Sign out
-      </button>
-
-      <p class="demo-note">
-        Demo profile only. This is not a secure, server-backed authentication system.
-      </p>
+      <p class="privacy-note">No account or server connection is used. Preferences stay in your browser storage.</p>
     </div>
   </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </body>
 </html>

@@ -1,676 +1,87 @@
+(() => {
+  "use strict";
+  const STORAGE = {theme:"cineverse_theme_final", watchlist:"cineverse_watchlist_final", history:"cineverse_history_final", profile:"cineverse_profile_final"};
+  const movies = [
+    {id:1,title:"Dune: Part Two",year:2024,rating:8.5,genre:"Sci-Fi",type:"MOVIE",duration:"2h 46m",description:"Paul Atreides unites with Chani and the Fremen while seeking revenge against the conspirators who destroyed his family. A vast, hypnotic journey through destiny, power, and survival.",poster:"https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg",backdrop:"https://image.tmdb.org/t/p/original/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg",director:"Denis Villeneuve",cast:"Timothée Chalamet, Zendaya, Rebecca Ferguson"},
+    {id:2,title:"Interstellar",year:2014,rating:8.7,genre:"Sci-Fi",type:"MOVIE",duration:"2h 49m",description:"A team of explorers travels beyond this galaxy to discover whether mankind has a future among the stars. An emotional epic about time, family, and the impossible.",poster:"https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",backdrop:"https://image.tmdb.org/t/p/original/xJHokMbljvjADYdit5fK5VQsXEG.jpg",director:"Christopher Nolan",cast:"Matthew McConaughey, Anne Hathaway, Jessica Chastain"},
+    {id:3,title:"The Batman",year:2022,rating:7.8,genre:"Action",type:"MOVIE",duration:"2h 56m",description:"In his second year of fighting crime, Batman uncovers corruption in Gotham City and follows a trail of clues left by a mysterious killer.",poster:"https://image.tmdb.org/t/p/w500/74xTEgt7R36Fpooo50r9T25onhq.jpg",backdrop:"https://image.tmdb.org/t/p/original/b0PlSFdDwbyK0cf5RxwDpaOJQvQ.jpg",director:"Matt Reeves",cast:"Robert Pattinson, Zoë Kravitz, Paul Dano"},
+    {id:4,title:"Oppenheimer",year:2023,rating:8.3,genre:"Drama",type:"MOVIE",duration:"3h 00m",description:"The story of J. Robert Oppenheimer and the brilliant, conflicted minds behind the creation of the atomic bomb.",poster:"https://image.tmdb.org/t/p/w500/ptpr0kGAckfQkJeJIt8st5dglvd.jpg",backdrop:"https://image.tmdb.org/t/p/original/fm6KqXpk3M2HVveHwCrBSSBaO0V.jpg",director:"Christopher Nolan",cast:"Cillian Murphy, Emily Blunt, Robert Downey Jr."},
+    {id:5,title:"Spider-Man: Across the Spider-Verse",year:2023,rating:8.6,genre:"Animation",type:"MOVIE",duration:"2h 20m",description:"Miles Morales swings into the multiverse and meets a team of Spider-People charged with protecting its existence.",poster:"https://image.tmdb.org/t/p/w500/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg",backdrop:"https://image.tmdb.org/t/p/original/4HodYYKEIsGOdinkGi2Ucz6X9i0.jpg",director:"Joaquim Dos Santos",cast:"Shameik Moore, Hailee Steinfeld, Brian Tyree Henry"},
+    {id:6,title:"The Grand Budapest Hotel",year:2014,rating:8.1,genre:"Comedy",type:"MOVIE",duration:"1h 39m",description:"A legendary concierge and his young protégé become wrapped in a story of stolen art, family fortunes, and a changing Europe.",poster:"https://image.tmdb.org/t/p/w500/eWdyYQreja6JGCzqHWXpWHDrrPo.jpg",backdrop:"https://image.tmdb.org/t/p/original/nX5XotM9yprCKarRH4fzOq1VM1J.jpg",director:"Wes Anderson",cast:"Ralph Fiennes, Tony Revolori, Saoirse Ronan"},
+    {id:7,title:"Everything Everywhere All at Once",year:2022,rating:7.8,genre:"Fantasy",type:"MOVIE",duration:"2h 19m",description:"An exhausted laundromat owner is swept into a wild multiverse adventure where only she can save existence.",poster:"https://image.tmdb.org/t/p/w500/w3LxiVYdWWRvEVdn5RYq6jIqkb1.jpg",backdrop:"https://image.tmdb.org/t/p/original/ss0Os3uWJfQAENILHZUdX8Tt1OC.jpg",director:"Daniel Kwan & Daniel Scheinert",cast:"Michelle Yeoh, Stephanie Hsu, Ke Huy Quan"},
+    {id:8,title:"Top Gun: Maverick",year:2022,rating:8.2,genre:"Action",type:"MOVIE",duration:"2h 10m",description:"After decades of service, Maverick trains a new generation of elite pilots for a mission unlike any other.",poster:"https://image.tmdb.org/t/p/w500/62HCnUTziyWcpDaBO2i1DX17ljH.jpg",backdrop:"https://image.tmdb.org/t/p/original/odJ4hx6g6vBt4lBWKFD1tI8WS4x.jpg",director:"Joseph Kosinski",cast:"Tom Cruise, Miles Teller, Jennifer Connelly"},
+    {id:9,title:"Knives Out",year:2019,rating:7.9,genre:"Mystery",type:"MOVIE",duration:"2h 10m",description:"A detective investigates the death of a celebrated mystery novelist, finding a family full of secrets and suspects.",poster:"https://image.tmdb.org/t/p/w500/pThyQovXQrw2m0s9x82twj48Jq4.jpg",backdrop:"https://image.tmdb.org/t/p/original/Ab8mkHmkYADjU7wQiOkia9BzGvS.jpg",director:"Rian Johnson",cast:"Daniel Craig, Ana de Armas, Chris Evans"},
+    {id:10,title:"La La Land",year:2016,rating:8.0,genre:"Romance",type:"MOVIE",duration:"2h 08m",description:"A jazz musician and an aspiring actor fall in love while chasing their dreams in Los Angeles.",poster:"https://image.tmdb.org/t/p/w500/uDO8zWDhfWwoFdKS4fzkUJt0Rf0.jpg",backdrop:"https://image.tmdb.org/t/p/original/n9C3K9Qq5z2W7j2P4u2kW2w1.jpg",director:"Damien Chazelle",cast:"Ryan Gosling, Emma Stone, John Legend"},
+    {id:11,title:"The Shawshank Redemption",year:1994,rating:9.3,genre:"Drama",type:"MOVIE",duration:"2h 22m",description:"Two imprisoned men form an enduring friendship, finding solace and redemption through years of hardship.",poster:"https://image.tmdb.org/t/p/w500/q6y0Go1tsGEsmtFryDOJo3dEmqu.jpg",backdrop:"https://image.tmdb.org/t/p/original/kXfqcdQKsToO0OUXHcrrNCHDBzO.jpg",director:"Frank Darabont",cast:"Tim Robbins, Morgan Freeman, Bob Gunton"},
+    {id:12,title:"The Lord of the Rings: The Fellowship of the Ring",year:2001,rating:8.9,genre:"Fantasy",type:"MOVIE",duration:"2h 58m",description:"A humble hobbit inherits a ring of immense power and begins a dangerous quest to destroy it before darkness rises.",poster:"https://image.tmdb.org/t/p/w500/6oom5QYQ2yQTMJIbnvbkBL9cHo6.jpg",backdrop:"https://image.tmdb.org/t/p/original/x2RS3uTcsJJ9IfjNPcgDmukoEcQ.jpg",director:"Peter Jackson",cast:"Elijah Wood, Ian McKellen, Viggo Mortensen"},
+    {id:13,title:"John Wick: Chapter 4",year:2023,rating:7.7,genre:"Action",type:"MOVIE",duration:"2h 49m",description:"John Wick uncovers a path to defeating the High Table, but powerful enemies stand between him and freedom.",poster:"https://image.tmdb.org/t/p/w500/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg",backdrop:"https://image.tmdb.org/t/p/original/h8gHn0OzBoaefsYseUByqsmEDMY.jpg",director:"Chad Stahelski",cast:"Keanu Reeves, Donnie Yen, Bill Skarsgård"},
+    {id:14,title:"Coco",year:2017,rating:8.4,genre:"Animation",type:"MOVIE",duration:"1h 45m",description:"A music-loving boy enters the Land of the Dead to discover the truth about his family history.",poster:"https://image.tmdb.org/t/p/w500/gGEsBPAijhVUFoiNpgZXqRVWJt2.jpg",backdrop:"https://image.tmdb.org/t/p/original/sm4H9b9yZ8X9b5J8x8K4b0w8.jpg",director:"Lee Unkrich",cast:"Anthony Gonzalez, Gael García Bernal, Benjamin Bratt"},
+    {id:15,title:"The Queen's Gambit",year:2020,rating:8.5,genre:"Drama",type:"SERIES",duration:"7 episodes",description:"An orphaned chess prodigy rises through a male-dominated world while battling personal demons and addiction.",poster:"https://image.tmdb.org/t/p/w500/zU0htwkhNvBQdVSIKB9s6hgVeFK.jpg",backdrop:"https://image.tmdb.org/t/p/original/34OGjFEbHj0E3lE2w0iTUVq0r9M.jpg",director:"Scott Frank",cast:"Anya Taylor-Joy, Bill Camp, Moses Ingram"},
+    {id:16,title:"Stranger Things",year:2016,rating:8.7,genre:"Mystery",type:"SERIES",duration:"4 seasons",description:"When a boy vanishes, a small town discovers strange experiments, supernatural forces, and one extraordinary girl.",poster:"https://image.tmdb.org/t/p/w500/49WJfeN0moxb9IPfGn8AIqMGskD.jpg",backdrop:"https://image.tmdb.org/t/p/original/56v2KjBlU4XaOv9rVYEQypROD7P.jpg",director:"The Duffer Brothers",cast:"Millie Bobby Brown, Finn Wolfhard, David Harbour"},
+    {id:17,title:"Arcane",year:2021,rating:9.0,genre:"Animation",type:"SERIES",duration:"2 seasons",description:"Two sisters find themselves on opposite sides of a conflict between a prosperous city and its neglected underground.",poster:"https://image.tmdb.org/t/p/w500/fqldf2t8ztc9aiwn3k6mlX3tvRT.jpg",backdrop:"https://image.tmdb.org/t/p/original/3IBv7k3K1e9X6r8y9K0v6q0K1e.jpg",director:"Christian Linke, Alex Yee",cast:"Hailee Steinfeld, Ella Purnell, Kevin Alejandro"},
+    {id:18,title:"The Last of Us",year:2023,rating:8.7,genre:"Drama",type:"SERIES",duration:"1 season",description:"A hardened survivor escorts a teenage girl across a dangerous world after a devastating fungal outbreak.",poster:"https://image.tmdb.org/t/p/w500/uKvVjHNqB5VmOrdxqAt2F7J78ED.jpg",backdrop:"https://image.tmdb.org/t/p/original/2ni2g4r2g4J3u7K8r5b2.jpg",director:"Craig Mazin, Neil Druckmann",cast:"Pedro Pascal, Bella Ramsey, Anna Torv"},
+    {id:19,title:"Wednesday",year:2022,rating:8.0,genre:"Fantasy",type:"SERIES",duration:"1 season",description:"Wednesday Addams investigates a murder mystery at her peculiar new school while mastering her emerging psychic abilities.",poster:"https://image.tmdb.org/t/p/w500/9PFonBhy4cQy7Jz20NpMygczOkv.jpg",backdrop:"https://image.tmdb.org/t/p/original/iHSwvRVsRyxpX7FE7GbviaDvgGZ.jpg",director:"Tim Burton, Gandja Monteiro",cast:"Jenna Ortega, Emma Myers, Hunter Doohan"},
+    {id:20,title:"The Mandalorian",year:2019,rating:8.6,genre:"Adventure",type:"SERIES",duration:"3 seasons",description:"A lone bounty hunter navigates the outer reaches of the galaxy, far from the authority of the New Republic.",poster:"https://image.tmdb.org/t/p/w500/eU1i6eHXlzMOlEq0ku1Rzq7Y4wA.jpg",backdrop:"https://image.tmdb.org/t/p/original/9ijMGlJKqcslswWUzTEwScm82Gs.jpg",director:"Jon Favreau",cast:"Pedro Pascal, Carl Weathers, Giancarlo Esposito"}
+  ];
 
-"use strict";
+  const $ = (s, root=document) => root.querySelector(s);
+  const $$ = (s, root=document) => [...root.querySelectorAll(s)];
+  const safeRead = (key, fallback) => { try { const v=localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch { return fallback; } };
+  const safeWrite = (key, value) => { try { localStorage.setItem(key, JSON.stringify(value)); } catch { toast("Browser storage is unavailable."); } };
+  const state = {theme: safeRead(STORAGE.theme, "dark"), watchlist: safeRead(STORAGE.watchlist, []), history: safeRead(STORAGE.history, []), profile: safeRead(STORAGE.profile, {name:"Guest",genre:"Adventure"}), activeMovie:null};
+  if (!Array.isArray(state.watchlist)) state.watchlist=[];
+  if (!Array.isArray(state.history)) state.history=[];
+  const posterFallback = "https://placehold.co/500x750/171117/F5C451?text=CINEVERSE";
+  const backdropFallback = "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1800&q=85";
 
-/* =========================================
-   CINEVERSE — COMPLETE MOVIE APP
-   Commit 15: Similar & Recommended Movies
-========================================= */
-
-const MOVIES = [
-  {
-    id: 1, title: "Interstellar", genre: "Sci-Fi", year: 2014, rating: 8.7,
-    duration: "169 min", director: "Christopher Nolan",
-    poster: "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",
-    description: "A team of explorers travels beyond this galaxy to discover whether mankind has a future among the stars."
-  },
-  {
-    id: 2, title: "Inception", genre: "Sci-Fi", year: 2010, rating: 8.8,
-    duration: "148 min", director: "Christopher Nolan",
-    poster: "https://image.tmdb.org/t/p/w500/oYuLEt3zVCKq57qu2F8dT7NIa6f.jpg",
-    description: "A skilled thief enters people's dreams to steal secrets and attempts an almost impossible mission."
-  },
-  {
-    id: 3, title: "The Dark Knight", genre: "Action", year: 2008, rating: 9.0,
-    duration: "152 min", director: "Christopher Nolan",
-    poster: "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg",
-    description: "Batman faces the Joker, a criminal mastermind who pushes Gotham City into chaos."
-  },
-  {
-    id: 4, title: "The Matrix", genre: "Sci-Fi", year: 1999, rating: 8.7,
-    duration: "136 min", director: "Lana and Lilly Wachowski",
-    poster: "https://image.tmdb.org/t/p/w500/p96dm7sCMn4VYAStA6siNz30G1r.jpg",
-    description: "A computer hacker discovers the shocking truth behind the reality he has always known."
-  },
-  {
-    id: 5, title: "Dune: Part Two", genre: "Sci-Fi", year: 2024, rating: 8.5,
-    duration: "166 min", director: "Denis Villeneuve",
-    poster: "https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg",
-    description: "Paul Atreides unites with the Fremen while pursuing a future shaped by destiny and conflict."
-  },
-  {
-    id: 6, title: "Arrival", genre: "Sci-Fi", year: 2016, rating: 7.9,
-    duration: "116 min", director: "Denis Villeneuve",
-    poster: "https://image.tmdb.org/t/p/w500/x2FJsf1ElAgr63Y3PNPtJrcmpoe.jpg",
-    description: "A linguist works to communicate with mysterious visitors who have arrived on Earth."
-  },
-  {
-    id: 7, title: "Avengers: Endgame", genre: "Action", year: 2019, rating: 8.4,
-    duration: "181 min", director: "Anthony and Joe Russo",
-    poster: "https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg",
-    description: "The surviving Avengers unite for one final mission to restore what was lost."
-  },
-  {
-    id: 8, title: "John Wick", genre: "Action", year: 2014, rating: 7.4,
-    duration: "101 min", director: "Chad Stahelski",
-    poster: "https://image.tmdb.org/t/p/w500/fZPSd91yGE9fCcCe6OoQr6E3Bev.jpg",
-    description: "A retired assassin returns to a dangerous underworld and confronts his past."
-  },
-  {
-    id: 9, title: "Gladiator", genre: "Action", year: 2000, rating: 8.5,
-    duration: "155 min", director: "Ridley Scott",
-    poster: "https://image.tmdb.org/t/p/w500/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg",
-    description: "A betrayed Roman general fights his way through the arena in search of justice."
-  },
-  {
-    id: 10, title: "The Shawshank Redemption", genre: "Drama", year: 1994, rating: 9.3,
-    duration: "142 min", director: "Frank Darabont",
-    poster: "https://image.tmdb.org/t/p/w500/9cqNxx0GxF0bflZmeSMuL5tnGzr.jpg",
-    description: "Two prisoners form an enduring friendship while holding on to hope behind prison walls."
-  },
-  {
-    id: 11, title: "Joker", genre: "Thriller", year: 2019, rating: 8.4,
-    duration: "122 min", director: "Todd Phillips",
-    poster: "https://image.tmdb.org/t/p/w500/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg",
-    description: "A troubled man descends into chaos in a city that has turned its back on him."
-  },
-  {
-    id: 12, title: "Spider-Man: Into the Spider-Verse", genre: "Animation", year: 2018, rating: 8.4,
-    duration: "117 min", director: "Bob Persichetti and others",
-    poster: "https://image.tmdb.org/t/p/w500/iiZZdoQBEYBv6id8su7ImL0oCbD.jpg",
-    description: "Miles Morales discovers a new world of Spider-heroes and learns what it means to be a hero."
-  }
-];
-
-const STORAGE_KEYS = {
-  watchlist: "cineverse_watchlist",
-  progress: "cineverse_progress",
-  history: "cineverse_history",
-  profile: "cineverse_profile"
-};
-
-function readStorage(key, fallback) {
-  try {
-    const saved = localStorage.getItem(key);
-    return saved === null ? fallback : JSON.parse(saved);
-  } catch (error) {
-    console.warn("CINEVERSE could not read saved data:", key, error);
-    return fallback;
-  }
-}
-
-function saveStorage(key, value) {
-  try {
-    localStorage.setItem(key, JSON.stringify(value));
-  } catch (error) {
-    console.warn("CINEVERSE could not save data:", key, error);
-  }
-}
-
-function getMovie(id) {
-  return MOVIES.find(movie => movie.id === Number(id));
-}
-
-let watchlist = readStorage(STORAGE_KEYS.watchlist, []);
-let progress = readStorage(STORAGE_KEYS.progress, {});
-let viewingHistory = readStorage(STORAGE_KEYS.history, []);
-let profile = readStorage(STORAGE_KEYS.profile, null);
-
-if (!Array.isArray(watchlist)) watchlist = [];
-if (!progress || typeof progress !== "object" || Array.isArray(progress)) progress = {};
-if (!Array.isArray(viewingHistory)) viewingHistory = [];
-
-watchlist = watchlist.map(Number).filter(id => getMovie(id));
-viewingHistory = viewingHistory.filter(item => item && getMovie(item.id));
-
-let activeMovieId = null;
-let isRegisterMode = false;
-
-/* ---------- Safe HTML output ---------- */
-
-function escapeHTML(value) {
-  return String(value ?? "").replace(/[&<>"']/g, character => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  })[character]);
-}
-
-/* ---------- Movie cards ---------- */
-
-function movieCard(movie) {
-  const saved = watchlist.includes(movie.id);
-  const poster = escapeHTML(movie.poster);
-  const title = escapeHTML(movie.title);
-  const genre = escapeHTML(movie.genre);
-  const percentage = Number(progress[movie.id]) || 0;
-
-  return `
-    <article class="movie-card">
-      <div class="poster-wrap">
-        <img
-          class="movie-poster"
-          src="${poster}"
-          alt="${title} poster"
-          loading="lazy"
-          onerror="this.onerror=null;this.style.display='none';this.parentElement.style.background='linear-gradient(145deg,#202943,#101421)'"
-        >
-        <span class="rating-pill">★ ${movie.rating.toFixed(1)}</span>
+  function toast(message){const el=$("#toast");if(!el)return;el.textContent=message;el.classList.add("show");clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.classList.remove("show"),2400);}
+  function getMovie(id){return movies.find(m=>m.id===Number(id));}
+  function saved(id){return state.watchlist.includes(Number(id));}
+  function saveState(){safeWrite(STORAGE.watchlist,state.watchlist);safeWrite(STORAGE.history,state.history);safeWrite(STORAGE.profile,state.profile);}
+  function cardTemplate(movie){
+    const isSaved=saved(movie.id);
+    return `<article class="movie-card" data-movie-id="${movie.id}">
+      <div class="poster-wrap" data-open-movie="${movie.id}" role="button" tabindex="0" aria-label="Open details for ${escapeHtml(movie.title)}">
+        <img class="poster-image" src="${movie.poster}" alt="${escapeHtml(movie.title)} poster" loading="lazy" data-fallback="${posterFallback}">
+        <div class="poster-top"><span class="rating-chip">★ ${movie.rating.toFixed(1)}</span><button class="save-button ${isSaved?"saved":""}" data-save-movie="${movie.id}" type="button" aria-label="${isSaved?"Remove":"Add"} ${escapeHtml(movie.title)} ${isSaved?"from":"to"} watchlist" aria-pressed="${isSaved}">${isSaved?"✓":"＋"}</button></div>
+        <div class="poster-bottom"><span>${movie.type}</span><span class="play-hint" aria-hidden="true">▶</span></div>
       </div>
-      <div class="movie-info">
-        <h3>${title}</h3>
-        <div class="movie-meta">${movie.year} · ${genre}</div>
-        <div class="card-actions">
-          <button class="card-button" type="button"
-            data-action="details" data-id="${movie.id}">Details</button>
-          <button class="card-button ${saved ? "saved" : ""}" type="button"
-            data-action="watchlist" data-id="${movie.id}">
-            ${saved ? "✓ Saved" : "+ Watchlist"}
-          </button>
-        </div>
-        ${percentage > 0 ? `<div class="movie-meta">Progress: ${Math.min(100, percentage)}%</div>` : ""}
-      </div>
-    </article>
-  `;
-}
-
-/* ---------- Main discovery grid ---------- */
-
-function renderMovies() {
-  const grid = document.getElementById("movieGrid");
-  if (!grid) return;
-
-  const search = (document.getElementById("searchInput")?.value || "")
-    .trim().toLowerCase();
-
-  const genre = document.getElementById("genreFilter")?.value || "all";
-  const sort = document.getElementById("sortFilter")?.value || "popular";
-
-  let filtered = MOVIES.filter(movie => {
-    const matchesSearch =
-      movie.title.toLowerCase().includes(search) ||
-      movie.genre.toLowerCase().includes(search) ||
-      String(movie.year).includes(search) ||
-      movie.director.toLowerCase().includes(search);
-
-    const matchesGenre = genre === "all" || movie.genre === genre;
-    return matchesSearch && matchesGenre;
-  });
-
-  if (sort === "popular") filtered.sort((a, b) => b.rating - a.rating);
-  if (sort === "newest") filtered.sort((a, b) => b.year - a.year);
-  if (sort === "oldest") filtered.sort((a, b) => a.year - b.year);
-  if (sort === "title") filtered.sort((a, b) => a.title.localeCompare(b.title));
-
-  grid.innerHTML = filtered.map(movieCard).join("");
-
-  const count = document.getElementById("resultsCount");
-  if (count) {
-    count.textContent = `${filtered.length} movie${filtered.length === 1 ? "" : "s"}`;
+      <div class="movie-info"><h3 class="movie-title" title="${escapeHtml(movie.title)}">${escapeHtml(movie.title)}</h3><div class="movie-subline"><span>${movie.year} · ${movie.duration}</span><span class="movie-genre">${escapeHtml(movie.genre)}</span></div></div>
+    </article>`;
   }
-
-  const empty = document.getElementById("emptyMessage");
-  if (empty) empty.hidden = filtered.length > 0;
-}
-
-/* ---------- Watchlist ---------- */
-
-function renderWatchlist() {
-  const grid = document.getElementById("watchlistGrid");
-  const empty = document.getElementById("watchlistEmpty");
-  const count = document.getElementById("watchlistCount");
-
-  const movies = watchlist.map(getMovie).filter(Boolean);
-
-  if (grid) grid.innerHTML = movies.map(movieCard).join("");
-  if (empty) empty.hidden = movies.length > 0;
-  if (count) count.textContent = String(movies.length);
-}
-
-function toggleWatchlist(id) {
-  id = Number(id);
-  if (!getMovie(id)) return;
-
-  if (watchlist.includes(id)) {
-    watchlist = watchlist.filter(movieId => movieId !== id);
-  } else {
-    watchlist.push(id);
+  function escapeHtml(value){return String(value).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+  function renderGrid(target, list, empty=null){const el=$(target);if(!el)return;el.innerHTML=list.map(cardTemplate).join("");if(empty)$(empty)?.classList.toggle("hidden",list.length>0);}
+  function renderCatalog(){
+    const query=($("#movieSearch")?.value||"").trim().toLowerCase(), genre=$("#genreFilter")?.value||"all", sort=$("#sortFilter")?.value||"featured";
+    let list=movies.filter(m=>(`${m.title} ${m.genre} ${m.type} ${m.description}`).toLowerCase().includes(query)&&(genre==="all"||m.genre===genre));
+    if(sort==="rating")list.sort((a,b)=>b.rating-a.rating);else if(sort==="year")list.sort((a,b)=>b.year-a.year);else if(sort==="title")list.sort((a,b)=>a.title.localeCompare(b.title));else list.sort((a,b)=>a.id-b.id);
+    renderGrid("#movieGrid",list);$("#resultsCount").textContent=`${list.length} ${list.length===1?"title":"titles"}`;$("#emptyState").classList.toggle("hidden",list.length>0);
   }
-
-  saveStorage(STORAGE_KEYS.watchlist, watchlist);
-  renderMovies();
-  renderWatchlist();
-  renderContinueWatching();
-  renderHistory();
-
-  if (activeMovieId !== null) {
-    renderRecommendations(activeMovieId);
+  function renderWatchlist(){const list=state.watchlist.map(getMovie).filter(Boolean);renderGrid("#watchlistGrid",list);$("#watchlistEmpty").classList.toggle("hidden",list.length>0);$("#navWatchlistCount").textContent=list.length;}
+  function renderHistory(){const list=state.history.map(getMovie).filter(Boolean).slice(0,5);renderGrid("#recentGrid",list);$("#recentEmpty").classList.toggle("hidden",list.length>0);}
+  function toggleWatchlist(id){id=Number(id);if(saved(id)){state.watchlist=state.watchlist.filter(x=>x!==id);toast("Removed from your list.");}else{state.watchlist.unshift(id);toast("Added to your list.");}saveState();renderCatalog();renderWatchlist();if(window.CineverseReviews)window.CineverseReviews.refreshSaveButton();if(state.activeMovie?.id===id)updateDetailSaveButton();}
+  function updateDetailSaveButton(){const b=$("#detailSave");if(!b||!state.activeMovie)return;const yes=saved(state.activeMovie.id);b.textContent=yes?"✓ Saved to my list":"＋ Add to my list";}
+  function openMovie(id){const movie=getMovie(id);if(!movie)return;state.activeMovie=movie;state.history=[movie.id,...state.history.filter(x=>x!==movie.id)].slice(0,10);saveState();renderHistory();$("#detailCover").style.backgroundImage=`url("${movie.backdrop||movie.poster}")`;$("#detailKicker").textContent=`${movie.type} · ${movie.genre.toUpperCase()}`;$("#detailTitle").textContent=movie.title;$("#detailMeta").innerHTML=`<span>★ ${movie.rating.toFixed(1)} / 10</span><span>${movie.year}</span><span>${movie.duration}</span>`;$("#detailDescription").textContent=movie.description;$("#detailTags").innerHTML=`<span>${movie.genre}</span><span>${movie.type}</span><span>CINEVERSE PICK</span>`;$("#detailTrailer").onclick=()=>window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(movie.title+" official trailer")}`,"_blank","noopener,noreferrer");updateDetailSaveButton();const modal=$("#movieModal");modal.classList.remove("hidden");modal.setAttribute("aria-hidden","false");document.body.classList.add("modal-open");$("#modalCloseSentinel")?.focus();document.dispatchEvent(new CustomEvent("cineverse:movieopen",{detail:{movie}}));}
+  function closeModal(modal){if(!modal)return;modal.classList.add("hidden");modal.setAttribute("aria-hidden","true");if(!$$(".modal-backdrop:not(.hidden)").length)document.body.classList.remove("modal-open");}
+  function applyTheme(theme){state.theme=theme==="light"?"light":"dark";document.documentElement.dataset.theme=state.theme;safeWrite(STORAGE.theme,state.theme);const button=$("#themeToggle");if(button){button.textContent=state.theme==="dark"?"☼":"☾";button.setAttribute("aria-label",state.theme==="dark"?"Switch to Rose Sky light theme":"Switch to Crimson Noir dark theme");}}
+  function populateGenres(){const select=$("#genreFilter");[...new Set(movies.map(m=>m.genre))].sort().forEach(g=>{const opt=document.createElement("option");opt.value=g;opt.textContent=g;select.append(opt);});}
+  function setProfileUI(){const name=(state.profile.name||"Guest").trim()||"Guest";$("#profileButtonName").textContent=name;$("#avatarInitial").textContent=name.charAt(0).toUpperCase();$("#profileName").value=state.profile.name==="Guest"?"":state.profile.name;$("#favoriteGenre").value=state.profile.genre||"Adventure";}
+  function setHero(){const m=movies[0];$("#heroBackdrop").style.backgroundImage=`linear-gradient(90deg,#100d12 0%,rgba(16,13,18,.92) 28%,rgba(16,13,18,.35) 70%,rgba(16,13,18,.12) 100%),linear-gradient(0deg,#100d12 0%,transparent 35%),url("${m.backdrop}")`;$("#heroKicker").textContent=`FEATURED EXPERIENCE · ${m.genre.toUpperCase()}`;$("#heroTitle").innerHTML=`${escapeHtml(m.title.split(":")[0])}<br><span>${escapeHtml(m.title.includes(":")?m.title.split(":").slice(1).join(":").trim():"A story worth seeing.")}</span>`;$("#heroDescription").textContent=m.description;$("#heroMeta").innerHTML=`<span>★ ${m.rating.toFixed(1)}</span><span>${m.year}</span><span>${m.duration}</span><span class="tag">CINEMATIC PICK</span>`;$("#heroExplore").onclick=()=>openMovie(m.id);$("#heroWatchlist").onclick=()=>toggleWatchlist(m.id);}
+  function startLoader(){const loader=$("#siteLoader"),bar=$("#loaderBar"),percent=$("#loaderPercent");if(!loader)return;let p=0;const step=()=>{p=Math.min(100,p+Math.floor(Math.random()*13)+5);bar.style.width=p+"%";percent.textContent=p+"%";if(p<100)setTimeout(step,45+Math.random()*65);else setTimeout(()=>loader.classList.add("done"),300);};step();}
+  function init(){
+    applyTheme(state.theme);populateGenres();setHero();setProfileUI();renderCatalog();renderWatchlist();renderHistory();$("#currentYear").textContent=new Date().getFullYear();startLoader();
+    $("#themeToggle").addEventListener("click",()=>applyTheme(state.theme==="dark"?"light":"dark"));
+    $("#movieSearch").addEventListener("input",renderCatalog);$("#genreFilter").addEventListener("change",renderCatalog);$("#sortFilter").addEventListener("change",renderCatalog);
+    $("#clearFilters").addEventListener("click",()=>{$("#movieSearch").value="";$("#genreFilter").value="all";$("#sortFilter").value="featured";renderCatalog();});
+    $("#clearWatchlist").addEventListener("click",()=>{if(!state.watchlist.length)return toast("Your list is already empty.");if(confirm("Clear your entire watchlist?")){state.watchlist=[];saveState();renderWatchlist();renderCatalog();toast("Watchlist cleared.");}});
+    $("#detailSave").addEventListener("click",()=>state.activeMovie&&toggleWatchlist(state.activeMovie.id));
+    $("#openProfile").addEventListener("click",()=>{setProfileUI();const m=$("#profileModal");m.classList.remove("hidden");m.setAttribute("aria-hidden","false");document.body.classList.add("modal-open");});
+    $("#profileForm").addEventListener("submit",e=>{e.preventDefault();state.profile={name:$("#profileName").value.trim()||"Guest",genre:$("#favoriteGenre").value};safeWrite(STORAGE.profile,state.profile);setProfileUI();closeModal($("#profileModal"));toast("Your preferences have been saved.");document.dispatchEvent(new CustomEvent("cineverse:profilechange",{detail:{profile:state.profile}}));});
+    document.addEventListener("click",e=>{const save=e.target.closest("[data-save-movie]");if(save){e.preventDefault();e.stopPropagation();toggleWatchlist(save.dataset.saveMovie);return;}const open=e.target.closest("[data-open-movie]");if(open)openMovie(open.dataset.openMovie);const close=e.target.closest("[data-close-modal]");if(close)closeModal(close.closest(".modal-backdrop"));});
+    document.addEventListener("keydown",e=>{const open=e.target.closest?.("[data-open-movie]");if(open&&(e.key==="Enter"||e.key===" ")){e.preventDefault();openMovie(open.dataset.openMovie);}});
+    $("#movieModal").addEventListener("click",e=>{if(e.target===$("#movieModal"))closeModal($("#movieModal"));});$("#profileModal").addEventListener("click",e=>{if(e.target===$("#profileModal"))closeModal($("#profileModal"));});
+    window.addEventListener("storage",e=>{if(e.key===STORAGE.theme)applyTheme(safeRead(STORAGE.theme,"dark"));});
   }
-}
-
-/* ---------- Continue watching ---------- */
-
-function renderContinueWatching() {
-  const grid = document.getElementById("continueGrid");
-  const empty = document.getElementById("continueEmpty");
-  if (!grid) return;
-
-  const movies = MOVIES.filter(movie => {
-    const value = Number(progress[movie.id]) || 0;
-    return value > 0 && value < 100;
-  }).sort((a, b) => (Number(progress[b.id]) || 0) - (Number(progress[a.id]) || 0));
-
-  grid.innerHTML = movies.map(movie => `
-    <article class="movie-card">
-      <div class="poster-wrap">
-        <img class="movie-poster" src="${escapeHTML(movie.poster)}"
-          alt="${escapeHTML(movie.title)} poster" loading="lazy"
-          onerror="this.onerror=null;this.style.display='none'">
-        <span class="rating-pill">${Math.min(100, Number(progress[movie.id]) || 0)}%</span>
-      </div>
-      <div class="movie-info">
-        <h3>${escapeHTML(movie.title)}</h3>
-        <div class="movie-meta">${movie.year} · ${escapeHTML(movie.genre)}</div>
-        <div style="height:5px;background:#292e40;border-radius:8px;overflow:hidden;margin:12px 0">
-          <div style="height:100%;width:${Math.min(100, Number(progress[movie.id]) || 0)}%;background:linear-gradient(90deg,#83e9ff,#a88bff)"></div>
-        </div>
-        <div class="card-actions">
-          <button class="card-button" type="button"
-            data-action="start" data-id="${movie.id}">Continue</button>
-          <button class="card-button" type="button"
-            data-action="details" data-id="${movie.id}">Details</button>
-        </div>
-      </div>
-    </article>
-  `).join("");
-
-  if (empty) empty.hidden = movies.length > 0;
-}
-
-/* ---------- Recently viewed ---------- */
-
-function addToHistory(id) {
-  id = Number(id);
-  if (!getMovie(id)) return;
-
-  viewingHistory = [
-    { id, viewedAt: Date.now() },
-    ...viewingHistory.filter(item => Number(item.id) !== id)
-  ].slice(0, 8);
-
-  saveStorage(STORAGE_KEYS.history, viewingHistory);
-  renderHistory();
-}
-
-function renderHistory() {
-  const grid = document.getElementById("historyGrid");
-  const empty = document.getElementById("historyEmpty");
-  if (!grid) return;
-
-  const movies = viewingHistory.map(item => getMovie(item.id)).filter(Boolean);
-  grid.innerHTML = movies.map(movieCard).join("");
-
-  if (empty) empty.hidden = movies.length > 0;
-}
-
-/* ---------- Similar movie recommendations ---------- */
-
-function renderRecommendations(movieId = null) {
-  const grid = document.getElementById("recommendationsGrid");
-  const empty = document.getElementById("recommendationsEmpty");
-  if (!grid) return;
-
-  let recommendations = [];
-
-  if (movieId !== null) {
-    const selected = getMovie(movieId);
-
-    if (selected) {
-      recommendations = MOVIES.filter(movie =>
-        movie.id !== selected.id && movie.genre === selected.genre
-      ).sort((a, b) => b.rating - a.rating);
-    }
-  } else {
-    const preferenceIds = [
-      ...watchlist,
-      ...viewingHistory.map(item => Number(item.id))
-    ];
-
-    const genreScores = {};
-
-    preferenceIds.forEach(id => {
-      const movie = getMovie(id);
-      if (movie) genreScores[movie.genre] = (genreScores[movie.genre] || 0) + 1;
-    });
-
-    recommendations = MOVIES.filter(movie => !watchlist.includes(movie.id))
-      .sort((a, b) => {
-        const scoreA = genreScores[a.genre] || 0;
-        const scoreB = genreScores[b.genre] || 0;
-        return scoreB - scoreA || b.rating - a.rating;
-      });
-  }
-
-  recommendations = recommendations.slice(0, 6);
-  grid.innerHTML = recommendations.map(movie => `
-    <div>
-      <p class="recommendation-label">✦ ${escapeHTML(movie.genre)} pick</p>
-      ${movieCard(movie)}
-    </div>
-  `).join("");
-
-  if (empty) empty.hidden = recommendations.length > 0;
-}
-
-/* ---------- Movie details modal ---------- */
-
-function showDetails(id) {
-  const movie = getMovie(id);
-  const modal = document.getElementById("detailsModal");
-  const content = document.getElementById("detailsContent");
-
-  if (!movie || !modal || !content) return;
-
-  activeMovieId = movie.id;
-  addToHistory(movie.id);
-
-  const saved = watchlist.includes(movie.id);
-  const currentProgress = Number(progress[movie.id]) || 0;
-
-  content.innerHTML = `
-    <div class="details-layout">
-      <div>
-        <img class="details-poster" src="${escapeHTML(movie.poster)}"
-          alt="${escapeHTML(movie.title)} poster"
-          onerror="this.onerror=null;this.style.display='none'">
-      </div>
-      <div class="details-copy">
-        <p class="eyebrow">${escapeHTML(movie.genre)} · ${movie.year}</p>
-        <h2>${escapeHTML(movie.title)}</h2>
-        <div class="details-meta">★ ${movie.rating.toFixed(1)} / 10 &nbsp; · &nbsp; ${escapeHTML(movie.duration)}</div>
-        <p>${escapeHTML(movie.description)}</p>
-        <p><strong>Director:</strong> ${escapeHTML(movie.director)}</p>
-        <p><strong>Your progress:</strong> ${currentProgress}%</p>
-        <div class="details-actions">
-          <button class="primary-button" type="button"
-            data-action="start" data-id="${movie.id}">
-            ${currentProgress > 0 && currentProgress < 100 ? "Continue movie" : "Start movie"}
-          </button>
-          <button class="secondary-button" type="button"
-            data-action="watchlist" data-id="${movie.id}">
-            ${saved ? "✓ In watchlist" : "+ Add to watchlist"}
-          </button>
-          <button class="secondary-button" type="button"
-            data-action="watched" data-id="${movie.id}">Mark watched</button>
-        </div>
-      </div>
-    </div>
-  `;
-
-  modal.hidden = false;
-  document.body.style.overflow = "hidden";
-  renderRecommendations(movie.id);
-}
-
-/* ---------- Demo watch progress ---------- */
-
-function startMovie(id) {
-  const movie = getMovie(id);
-  if (!movie) return;
-
-  const current = Number(progress[id]) || 0;
-  progress[id] = current >= 100 ? 100 : Math.min(100, current + 10);
-  saveStorage(STORAGE_KEYS.progress, progress);
-
-  addToHistory(id);
-  renderContinueWatching();
-  renderMovies();
-  renderWatchlist();
-  renderHistory();
-
-  if (progress[id] >= 100) {
-    alert(`${movie.title} marked as completed in this demo.`);
-  } else {
-    alert(`${movie.title}: demo progress is now ${progress[id]}%. This is a progress tracker, not a movie player.`);
-  }
-
-  if (activeMovieId === Number(id)) showDetails(id);
-}
-
-function markWatched(id) {
-  id = Number(id);
-  if (!getMovie(id)) return;
-
-  progress[id] = 100;
-  saveStorage(STORAGE_KEYS.progress, progress);
-  addToHistory(id);
-  renderContinueWatching();
-  renderMovies();
-  renderWatchlist();
-  renderHistory();
-  showDetails(id);
-}
-
-/* ---------- Modal and click handling ---------- */
-
-function closeModal(modal) {
-  if (modal) modal.hidden = true;
-
-  const detailsOpen = !document.getElementById("detailsModal")?.hidden;
-  const authOpen = !document.getElementById("authModal")?.hidden;
-
-  if (!detailsOpen && !authOpen) {
-    document.body.style.overflow = "";
-  }
-}
-
-document.addEventListener("click", event => {
-  const closeTarget = event.target.closest("[data-close-modal]");
-  if (closeTarget) {
-    closeModal(closeTarget.closest(".modal"));
-    return;
-  }
-
-  const button = event.target.closest("[data-action]");
-  if (!button) return;
-
-  const id = Number(button.dataset.id);
-  const action = button.dataset.action;
-
-  if (action === "details") showDetails(id);
-  if (action === "watchlist") toggleWatchlist(id);
-  if (action === "start") startMovie(id);
-  if (action === "watched") markWatched(id);
-});
-
-document.addEventListener("keydown", event => {
-  if (event.key === "Escape") {
-    closeModal(document.getElementById("detailsModal"));
-    closeModal(document.getElementById("authModal"));
-  }
-});
-
-/* ---------- Search and filters ---------- */
-
-document.getElementById("searchInput")?.addEventListener("input", renderMovies);
-document.getElementById("genreFilter")?.addEventListener("change", renderMovies);
-document.getElementById("sortFilter")?.addEventListener("change", renderMovies);
-
-document.getElementById("resetFilters")?.addEventListener("click", () => {
-  const search = document.getElementById("searchInput");
-  const genre = document.getElementById("genreFilter");
-  const sort = document.getElementById("sortFilter");
-
-  if (search) search.value = "";
-  if (genre) genre.value = "all";
-  if (sort) sort.value = "popular";
-
-  renderMovies();
-});
-
-document.getElementById("clearHistoryButton")?.addEventListener("click", () => {
-  viewingHistory = [];
-  saveStorage(STORAGE_KEYS.history, viewingHistory);
-  renderHistory();
-});
-
-/* ---------- Demo profile ---------- */
-
-function updateProfileUI() {
-  const profileButton = document.getElementById("profileButton");
-  if (profileButton) {
-    profileButton.textContent = profile?.name
-      ? profile.name
-      : "Sign in";
-  }
-}
-
-function openAuthModal() {
-  const modal = document.getElementById("authModal");
-  const title = document.getElementById("authTitle");
-  const message = document.getElementById("profileMessage");
-  const nameField = document.getElementById("nameField");
-  const authSwitch = document.getElementById("authSwitch");
-  const authSubmit = document.getElementById("authSubmit");
-  const logoutButton = document.getElementById("logoutButton");
-  const form = document.getElementById("authForm");
-
-  modal.hidden = false;
-  document.body.style.overflow = "hidden";
-
-  if (profile) {
-    title.textContent = `Hello, ${profile.name}`;
-    message.textContent = `Signed in as ${profile.email}. This is a local demo profile.`;
-    form.hidden = true;
-    nameField.hidden = true;
-    authSwitch.hidden = true;
-    authSubmit.hidden = true;
-    logoutButton.hidden = false;
-  } else {
-    title.textContent = isRegisterMode ? "Create your profile" : "Welcome back";
-    message.textContent = "This demo profile is stored only in this browser.";
-    form.hidden = false;
-    nameField.hidden = !isRegisterMode;
-    authSwitch.hidden = false;
-    authSubmit.hidden = false;
-    logoutButton.hidden = true;
-    authSubmit.textContent = isRegisterMode ? "Create account" : "Sign in";
-    authSwitch.textContent = isRegisterMode
-      ? "Already registered? Sign in"
-      : "New here? Create an account";
-  }
-}
-
-document.getElementById("profileButton")?.addEventListener("click", openAuthModal);
-
-document.getElementById("authSwitch")?.addEventListener("click", () => {
-  isRegisterMode = !isRegisterMode;
-  openAuthModal();
-});
-
-document.getElementById("authForm")?.addEventListener("submit", event => {
-  event.preventDefault();
-
-  const name = document.getElementById("authName").value.trim();
-  const email = document.getElementById("authEmail").value.trim();
-  const password = document.getElementById("authPassword").value;
-
-  if (!email || password.length < 4) {
-    alert("Enter a valid email and a password of at least 4 characters.");
-    return;
-  }
-
-  if (isRegisterMode && !name) {
-    alert("Please enter your name.");
-    return;
-  }
-
-  // Demo only: no password is saved or checked by a server.
-  profile = {
-    name: isRegisterMode ? name : (email.split("@")[0] || "Movie Fan"),
-    email
-  };
-
-  saveStorage(STORAGE_KEYS.profile, profile);
-  updateProfileUI();
-  openAuthModal();
-});
-
-document.getElementById("logoutButton")?.addEventListener("click", () => {
-  profile = null;
-  saveStorage(STORAGE_KEYS.profile, null);
-  updateProfileUI();
-  closeModal(document.getElementById("authModal"));
-});
-
-/* ---------- Initialise page ---------- */
-
-function initCineverse() {
-  renderMovies();
-  renderWatchlist();
-  renderContinueWatching();
-  renderHistory();
-  renderRecommendations();
-  updateProfileUI();
-}
-
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initCineverse, { once: true });
-} else {
-  initCineverse();
-}
-
-/* =========================================
-   COMMIT 16 — TRAILER PLAYER
-========================================= */
-
-function openTrailer(id) {
-  const movie = getMovie(id);
-  const modal = document.getElementById("trailerModal");
-  const frame = document.getElementById("trailerFrame");
-  const title = document.getElementById("trailerTitle");
-
-  if (!movie || !modal || !frame || !title) return;
-
-  if (!movie.trailer) {
-    alert("A trailer has not been configured for this movie yet.");
-    return;
-  }
-
-  title.textContent = `${movie.title} — Trailer`;
-  frame.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(movie.trailer)}?autoplay=1&rel=0`;
-  modal.hidden = false;
-  document.body.style.overflow = "hidden";
-}
-
-function closeTrailer() {
-  const modal = document.getElementById("trailerModal");
-  const frame = document.getElementById("trailerFrame");
-
-  if (frame) frame.src = "about:blank";
-  if (modal) modal.hidden = true;
-
-  const detailsOpen = !document.getElementById("detailsModal")?.hidden;
-  const authOpen = !document.getElementById("authModal")?.hidden;
-
-  if (!detailsOpen && !authOpen) {
-    document.body.style.overflow = "";
-  }
-}
-
-document.addEventListener("click", event => {
-  const closeButton = event.target.closest("[data-close-trailer]");
-
-  if (closeButton) {
-    closeTrailer();
-    return;
-  }
-
-  const button = event.target.closest('[data-action="trailer"]');
-
-  if (button) {
-    openTrailer(Number(button.dataset.id));
-  }
-});
-
+  window.CINEVERSE={movies,state,getMovie,openMovie,closeModal,toggleWatchlist,renderCatalog,renderWatchlist,renderHistory,toast,escapeHtml,posterFallback,storage:STORAGE};
+  document.addEventListener("DOMContentLoaded",init);
+})();
